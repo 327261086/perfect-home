@@ -180,7 +180,7 @@ npm run deploy
 ```
 perfect-home/
 ├── public/
-│   └── config.json              ← 配置文件（仅你和我能查看）
+│   └── config.json              ← 配置文件（仅你能查看）
 ├── src/
 │   ├── views/
 │   │   ├── MainLeft.vue         ← 左侧模块
