@@ -1,7 +1,7 @@
 // 配置加载模块 - 从 public/config.json 加载数据
 export async function loadConfig() {
   try {
-    const response = await fetch(import.meta.env.BASE_URL + 'config.json')
+    const response = await fetch('/config.json')
     if (!response.ok) throw new Error('Failed to load config')
     return await response.json()
   } catch (error) {
