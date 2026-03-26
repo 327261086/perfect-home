@@ -1,9 +1,9 @@
 {
   "name": "perfect-home",
   "version": "1.0.2",
-  "author": "OpenClaw",
-  "github": "https://github.com/imsyy/home",
-  "home": "https://home.example.com",
+  "author": "清风如水",
+  "github": "https://github.com/327261086/perfect-home",
+  "home": "https://home.orgv.de",
   "private": true,
   "type": "module",
   "scripts": {
