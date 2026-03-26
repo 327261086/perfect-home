@@ -1,12 +1,12 @@
 # Perfect Home v1.0.2
 
-🏠 一个现代化的个人主页项目，基于 Vue 3 + Vite + Pinia 开发。
+> 🏠 现代化个人主页 | Vue 3 + Vite + Pinia | 玻璃态设计 · 3D翻转 · 主题切换 · 番茄钟 · 天气 · 一言 | JSON配置 · 零后端
+
+[English](README_EN.md) | **中文**
 
 ![Version](https://img.shields.io/badge/version-1.0.2-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
-
-[![Star History Chart](https://api.star-history.com/svg?repos=327261086/perfect-home&type=Date)](https://star-history.com/#327261086/perfect-home&Date)
 
 ## ✨ 核心功能
 
@@ -209,13 +209,16 @@ perfect-home/
 
 ## 📚 文档
 
-- **CONFIG_GUIDE.md** - 配置编辑指南
-- **ANNOUNCEMENT_GUIDE.md** - 公告和右键提醒配置
-- **ICONFONT_QUICK_START.md** - iconfont 快速实现指南
-- **ICON_SOLUTION_ANALYSIS.md** - 图标方案详细分析
-- **ICON_DECISION_SUMMARY.md** - 图标方案决策总结
-- **FINAL_CHECKLIST.md** - 最终自检报告
-- **RELEASE_NOTES.md** - 发布说明
+| 文档 | 说明 |
+|------|------|
+| 📖 [搭建教程](docs/SETUP_GUIDE.md) | 详细安装、配置、部署指南 |
+| 🔧 [配置指南](docs/CONFIG_GUIDE.md) | config.json 完整配置说明 |
+| 📢 [公告配置](docs/ANNOUNCEMENT_GUIDE.md) | 公告栏和右键提醒配置 |
+| 🎨 [iconfont迁移](docs/ICONFONT_QUICK_START.md) | 图标升级指南 |
+| 📝 [发布说明](docs/RELEASE_NOTES.md) | 版本更新日志 |
+| 🌐 [English Setup Guide](docs/SETUP_GUIDE_EN.md) | English Documentation |
+| 🌐 [English Config Guide](docs/CONFIG_GUIDE_EN.md) | English Configuration |
+| 📖 [Wiki](https://github.com/327261086/perfect-home/wiki) | 常见问题和进阶教程 |
 
 ---
 
@@ -304,7 +307,12 @@ MIT License - 详见 LICENSE 文件
 
 ---
 
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=327261086/perfect-home&type=Date)](https://star-history.com/#327261086/perfect-home&Date)
+
+---
+
 **版本**: v1.0.2  
 **发布日期**: 2026-03-26  
-**状态**: ✅ 生产就绪  
-**最后更新**: 2026-03-26 22:40 GMT+8
+**状态**: ✅ 生产就绪

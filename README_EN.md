@@ -1,12 +1,12 @@
 # Perfect Home v1.0.2
 
-🏠 A modern personal homepage project built with Vue 3 + Vite + Pinia.
+> 🏠 Modern Personal Homepage | Vue 3 + Vite + Pinia | Glassmorphism · 3D Flip · Theme Toggle · Pomodoro · Weather · Quotes | JSON Config · No Backend
+
+**中文** | [English](README_EN.md)
 
 ![Version](https://img.shields.io/badge/version-1.0.2-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
-
-[![Star History Chart](https://api.star-history.com/svg?repos=327261086/perfect-home&type=Date)](https://star-history.com/#327261086/perfect-home&Date)
 
 ## ✨ Core Features
 
@@ -209,13 +209,14 @@ perfect-home/
 
 ## 📚 Documentation
 
-- **README.md** - Project overview
-- **SETUP_GUIDE.md** - Detailed setup guide
-- **CONFIG_GUIDE.md** - Configuration guide
-- **ANNOUNCEMENT_GUIDE.md** - Announcement configuration
-- **ICONFONT_QUICK_START.md** - iconfont quick start
-- **ICON_SOLUTION_ANALYSIS.md** - Icon solution analysis
-- **RELEASE_NOTES.md** - Release notes
+| Doc | Description |
+|-----|-------------|
+| 📖 [Setup Guide](docs/SETUP_GUIDE_EN.md) | Detailed install, config & deploy guide |
+| 🔧 [Config Guide](docs/CONFIG_GUIDE_EN.md) | Complete config.json reference |
+| 📝 [Release Notes](docs/RELEASE_NOTES_EN.md) | Version changelog |
+| 🌐 [搭建教程](docs/SETUP_GUIDE.md) | 中文搭建文档 |
+| 🌐 [配置指南](docs/CONFIG_GUIDE.md) | 中文配置文档 |
+| 📖 [Wiki](https://github.com/327261086/perfect-home/wiki) | FAQ & Advanced Tutorials |
 
 ---
 
@@ -304,7 +305,12 @@ Thanks to these open-source projects and services:
 
 ---
 
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=327261086/perfect-home&type=Date)](https://star-history.com/#327261086/perfect-home&Date)
+
+---
+
 **Version**: v1.0.2  
 **Release Date**: 2026-03-26  
-**Status**: ✅ Production Ready  
-**Last Updated**: 2026-03-26 22:46 GMT+8
+**Status**: ✅ Production Ready
