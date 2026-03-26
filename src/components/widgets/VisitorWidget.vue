@@ -45,20 +45,41 @@ const maskedIp = computed(() => {
 
 const fetchVisitor = async () => {
   try {
+    // 使用 ip-api.com（免费、无需认证、支持HTTPS）
     const res = await fetch('https://ipapi.co/json/')
     const data = await res.json()
-    visitorData.value = {
-      ip: data.ip,
-      city: data.city || '未知',
-      country: data.country_name || '未知',
-      timezone: data.timezone || 'UTC'
+    if (data && data.ip) {
+      visitorData.value = {
+        ip: data.ip,
+        city: data.city || '未知',
+        country: data.country_name || '未知',
+        timezone: data.timezone || 'UTC'
+      }
+    } else {
+      throw new Error('Invalid data')
     }
   } catch {
-    visitorData.value = {
-      ip: '192.168.1.1',
-      city: '北京',
-      country: '中国',
-      timezone: 'Asia/Shanghai'
+    // 备用 API
+    try {
+      const res2 = await fetch('https://freeipapi.com/api/json')
+      const data2 = await res2.json()
+      if (data2 && data2.ipAddress) {
+        visitorData.value = {
+          ip: data2.ipAddress,
+          city: data2.cityName || '未知',
+          country: data2.countryName || '未知',
+          timezone: data2.timeZone || 'UTC'
+        }
+      } else {
+        throw new Error('Invalid data')
+      }
+    } catch {
+      visitorData.value = {
+        ip: '0.0.0.0',
+        city: '未知',
+        country: '未知',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+      }
     }
   }
 }
