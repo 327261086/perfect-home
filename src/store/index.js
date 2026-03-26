@@ -192,7 +192,7 @@ export const mainStore = defineStore('main', () => {
   const visitor = ref(null)
   const fetchVisitor = async () => {
     try {
-      const res = await fetch('https://ipapi.co/json/')
+      const res = await fetch('https://api.nxvav.cn/api/ip/')
       visitor.value = await res.json()
     } catch {
       visitor.value = { city: '未知', country_name: '未知', ip: '127.0.0.1' }
@@ -209,9 +209,9 @@ export const mainStore = defineStore('main', () => {
 
     // 策略1：通过 IP 定位获取经纬度
     const ipApis = [
-      { url: 'https://ipwho.is/', parse: (d) => ({ lat: d.latitude, lon: d.longitude, city: d.city }) },
-      { url: 'https://ipapi.co/json/', parse: (d) => ({ lat: d.latitude, lon: d.longitude, city: d.city }) },
-      { url: 'http://ip-api.com/json/?lang=zh-CN', parse: (d) => ({ lat: d.lat, lon: d.lon, city: d.city }) }
+      { url: 'https://api.nxvav.cn/api/ip/', parse: (d) => ({ lat: d.latitude, lon: d.longitude, city: d.city }) },
+      { url: 'https://api.nxvav.cn/api/ip/', parse: (d) => ({ lat: d.latitude, lon: d.longitude, city: d.city }) },
+      { url: 'https://api.nxvav.cn/api/ip/', parse: (d) => ({ lat: d.lat, lon: d.lon, city: d.city }) }
     ]
 
     for (const api of ipApis) {
