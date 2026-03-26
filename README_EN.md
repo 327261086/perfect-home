@@ -6,6 +6,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
 
+[![Star History Chart](https://api.star-history.com/svg?repos=327261086/perfect-home&type=Date)](https://star-history.com/#327261086/perfect-home&Date)
+
 ## ✨ Core Features
 
 ### Left Module
