@@ -1,67 +1,64 @@
 <template>
-  <footer class="footer" :class="{ blur: store.footerBlur }">
-    <!-- 歌词显示 -->
-    <div class="lrc" v-if="store.playerLrcShow && store.playerLrc">
-      <span class="lrc-text">{{ store.playerLrc }}</span>
-    </div>
-    <div class="copyright">
-      <span>© {{ new Date().getFullYear() }} {{ store.siteName }}</span>
-      <span class="divider">|</span>
-      <span>Powered by Vue 3 + Vite</span>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="https://github.com/327261086/perfect-home" target="_blank">⬛ GitHub</a>
+        <span class="dot">·</span>
+        <span>Powered by Vue 3 + Vite + Pinia</span>
+      </div>
+      <div class="footer-copyright">
+        <span>Copyright © {{ year }} 清风如水. All Rights Reserved.</span>
+      </div>
     </div>
   </footer>
 </template>
 
 <script setup>
-import { useMainStore } from '@/store'
-const store = useMainStore()
+const year = new Date().getFullYear()
 </script>
 
 <style lang="scss" scoped>
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 50px;
-  background: rgba(26, 26, 46, 0.6);
+.site-footer {
+  width: 100%;
+  padding: 12px 0;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(10px);
-  border-top: 1px solid $border;
+  margin-top: auto;
+}
+
+.footer-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  z-index: 10;
-  transition: $transition;
-  
-  &.blur {
-    backdrop-filter: blur(20px);
-  }
-  
-  .lrc {
-    font-size: 13px;
-    color: $primary;
-    margin-bottom: 2px;
-    max-width: 400px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    animation: pulse 3s ease-in-out infinite;
-  }
-  
-  .copyright {
-    font-size: 12px;
-    color: $text-light;
-    
-    .divider {
-      margin: 0 8px;
-      opacity: 0.5;
+  gap: 4px;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+
+  a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #00d4ff;
     }
   }
-  
-  @media (max-width: $mobile) {
-    height: 60px;
-    padding: 8px 16px;
+
+  .dot {
+    opacity: 0.3;
   }
+}
+
+.footer-copyright {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
 }
 </style>

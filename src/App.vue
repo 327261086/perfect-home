@@ -29,6 +29,9 @@
 
     <!-- Music Player Panel -->
     <MusicPanel v-if="store.musicOpenState" />
+
+    <!-- Footer -->
+    <Footer />
   </div>
 </template>
 
@@ -44,6 +47,7 @@ import MainLeft from './views/MainLeft.vue'
 import MainRight from './views/MainRight.vue'
 import SettingsPanel from './views/SettingsPanel.vue'
 import MusicPanel from './components/MusicPanel.vue'
+import Footer from './components/Footer.vue'
 
 const store = mainStore()
 const mobileOpen = ref(false)

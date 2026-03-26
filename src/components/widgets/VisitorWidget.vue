@@ -44,43 +44,57 @@ const maskedIp = computed(() => {
 })
 
 const fetchVisitor = async () => {
-  try {
-    // 使用 ip-api.com（免费、无需认证、支持HTTPS）
-    const res = await fetch('https://ipapi.co/json/')
-    const data = await res.json()
-    if (data && data.ip) {
-      visitorData.value = {
-        ip: data.ip,
-        city: data.city || '未知',
-        country: data.country_name || '未知',
-        timezone: data.timezone || 'UTC'
-      }
-    } else {
-      throw new Error('Invalid data')
+  // 多 API 降级策略
+  const apis = [
+    {
+      url: 'https://ipwho.is/',
+      parse: (d) => ({
+        ip: d.ip,
+        city: d.city || '未知',
+        country: d.country || '未知',
+        timezone: d.timezone?.id || 'UTC'
+      })
+    },
+    {
+      url: 'https://ipapi.co/json/',
+      parse: (d) => ({
+        ip: d.ip,
+        city: d.city || '未知',
+        country: d.country_name || '未知',
+        timezone: d.timezone || 'UTC'
+      })
+    },
+    {
+      url: 'http://ip-api.com/json/?lang=zh-CN',
+      parse: (d) => ({
+        ip: d.query,
+        city: d.city || '未知',
+        country: d.country || '未知',
+        timezone: d.timezone || 'UTC'
+      })
     }
-  } catch {
-    // 备用 API
+  ]
+
+  for (const api of apis) {
     try {
-      const res2 = await fetch('https://freeipapi.com/api/json')
-      const data2 = await res2.json()
-      if (data2 && data2.ipAddress) {
-        visitorData.value = {
-          ip: data2.ipAddress,
-          city: data2.cityName || '未知',
-          country: data2.countryName || '未知',
-          timezone: data2.timeZone || 'UTC'
-        }
-      } else {
-        throw new Error('Invalid data')
-      }
-    } catch {
-      visitorData.value = {
-        ip: '0.0.0.0',
-        city: '未知',
-        country: '未知',
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
-      }
+      const res = await fetch(api.url)
+      if (!res.ok) continue
+      const data = await res.json()
+      if (!data || (data.code && data.code !== 200)) continue
+      visitorData.value = api.parse(data)
+      return
+    } catch (e) {
+      console.warn('访客API失败:', api.url, e.message)
     }
+  }
+
+  // 全部失败 - 使用浏览器时区兜底
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+  visitorData.value = {
+    ip: '0.0.0.0',
+    city: '未知',
+    country: '未知',
+    timezone: tz
   }
 }
 
