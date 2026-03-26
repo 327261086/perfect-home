@@ -205,18 +205,64 @@ export const mainStore = defineStore('main', () => {
   
   const fetchWeather = async () => {
     weatherLoading.value = true
+    let lat = null, lon = null, cityName = null
+
+    // 策略1：通过 IP 定位获取经纬度
+    const ipApis = [
+      { url: 'https://ipwho.is/', parse: (d) => ({ lat: d.latitude, lon: d.longitude, city: d.city }) },
+      { url: 'https://ipapi.co/json/', parse: (d) => ({ lat: d.latitude, lon: d.longitude, city: d.city }) },
+      { url: 'http://ip-api.com/json/?lang=zh-CN', parse: (d) => ({ lat: d.lat, lon: d.lon, city: d.city }) }
+    ]
+
+    for (const api of ipApis) {
+      try {
+        const res = await fetch(api.url)
+        if (!res.ok) continue
+        const data = await res.json()
+        if (!data || data.code) continue
+        const parsed = api.parse(data)
+        if (parsed.lat && parsed.lon) {
+          lat = parsed.lat
+          lon = parsed.lon
+          cityName = parsed.city || null
+          break
+        }
+      } catch (e) {
+        console.warn('天气定位API失败:', api.url, e.message)
+      }
+    }
+
+    // 策略2：浏览器定位（IP失败时兜底）
+    if (!lat) {
+      try {
+        const pos = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 })
+        })
+        lat = pos.coords.latitude
+        lon = pos.coords.longitude
+      } catch (e) {
+        console.warn('浏览器定位失败:', e.message)
+      }
+    }
+
+    // 策略3：默认北京
+    if (!lat) {
+      lat = 39.9042
+      lon = 116.4074
+      cityName = '北京'
+    }
+
+    // 获取天气 + 城市名
     try {
-      const pos = await new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 })
-      })
-      const lat = pos.coords.latitude
-      const lon = pos.coords.longitude
       const [wr, gr] = await Promise.all([
         fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m`),
-        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+        cityName ? Promise.resolve(null) : fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
       ])
       const w = await wr.json()
-      const g = await gr.json()
+      if (!cityName && gr) {
+        const g = await gr.json()
+        cityName = g.address?.city || g.address?.town || g.address?.state || '未知'
+      }
       const codeMap = {
         0: { icon: '☀️', text: '晴' }, 1: { icon: '🌤️', text: '晴间多云' }, 2: { icon: '⛅', text: '多云' }, 3: { icon: '☁️', text: '阴' },
         45: { icon: '🌫️', text: '雾' }, 48: { icon: '🌫️', text: '雾' },
@@ -233,10 +279,10 @@ export const mainStore = defineStore('main', () => {
         wind: Math.round(w.current.wind_speed_10m),
         icon: codeMap[code]?.icon || '🌤️',
         text: codeMap[code]?.text || '多云',
-        city: g.address?.city || g.address?.town || '未知'
+        city: cityName || '未知'
       }
     } catch {
-      weather.value = { temp: 25, humidity: 45, wind: 12, icon: '☀️', text: '晴', city: '北京' }
+      weather.value = { temp: 25, humidity: 45, wind: 12, icon: '☀️', text: '晴', city: cityName || '未知' }
     }
     weatherLoading.value = false
   }
