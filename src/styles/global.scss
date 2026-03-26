@@ -1,0 +1,140 @@
+/* ==================== Global Styles ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'HarmonyOS Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #fff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 主题背景 */
+body.theme-light {
+  background: linear-gradient(135deg, #e8f4f8 0%, #d1e8f0 100%);
+  color: #1a1a2e;
+}
+
+body.theme-dark {
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+  color: #fff;
+}
+
+body.theme-auto {
+  /* 自动根据时间切换 */
+}
+
+/* ==================== Scrollbar ==================== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 255, 0.3);
+  border-radius: 3px;
+  
+  &:hover {
+    background: rgba(0, 212, 255, 0.5);
+  }
+}
+
+/* ==================== Selection ==================== */
+::selection {
+  background: rgba(0, 212, 255, 0.3);
+  color: #fff;
+}
+
+/* ==================== Links ==================== */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ==================== Buttons ==================== */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+/* ==================== Inputs ==================== */
+input, textarea {
+  font-family: inherit;
+  outline: none;
+}
+
+/* ==================== Animations ==================== */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== Utility Classes ==================== */
+.text-gradient {
+  background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glow {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+}
+
+/* ==================== Cursor ==================== */
+body {
+  cursor: default;
+  
+  &:hover {
+    cursor: default;
+  }
+}
+
+/* ==================== Selection Disabled ==================== */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}

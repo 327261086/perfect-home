@@ -1,0 +1,25 @@
+{
+  "name": "perfect-home",
+  "version": "1.0.2",
+  "author": "OpenClaw",
+  "github": "https://github.com/imsyy/home",
+  "home": "https://home.example.com",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "dependencies": {
+    "vue": "^3.4.24",
+    "pinia": "^2.1.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.75.0",
+    "vite": "^5.2.8",
+    "gh-pages": "^6.1.1"
+  }
+}

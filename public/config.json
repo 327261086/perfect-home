@@ -1,0 +1,80 @@
+{
+  "site": {
+    "title": "home",
+    "domain": ".example",
+    "avatar": "👤",
+    "startDate": "2024-01-01",
+    "description": {
+      "identity": "全栈开发者",
+      "interests": "科技爱好者 / AI / 代码",
+      "showStartDate": true
+    }
+  },
+  "socials": [
+    {
+      "id": "github",
+      "name": "GitHub",
+      "url": "https://github.com/327261086",
+      "icon": "github",
+      "color": "#333333"
+    },
+    {
+      "id": "twitter",
+      "name": "Twitter",
+      "url": "https://twitter.com",
+      "icon": "twitter",
+      "color": "#1DA1F2"
+    },
+    {
+      "id": "email",
+      "name": "Email",
+      "url": "mailto:example@example.com",
+      "icon": "mail",
+      "color": "#EA4335"
+    }
+  ],
+  "links": [
+    {
+      "id": "project1",
+      "name": "Perfect Home",
+      "url": "https://github.com/327261086/perfect-home",
+      "icon": "github",
+      "color": "#00d4ff"
+    },
+    {
+      "id": "project2",
+      "name": "My Blog",
+      "url": "https://example.com",
+      "icon": "link",
+      "color": "#7b2ff7"
+    },
+    {
+      "id": "project3",
+      "name": "Portfolio",
+      "url": "https://example.com/portfolio",
+      "icon": "code",
+      "color": "#ff0089"
+    },
+    {
+      "id": "project4",
+      "name": "Resume",
+      "url": "https://example.com/resume",
+      "icon": "user",
+      "color": "#00d4ff"
+    }
+  ],
+  "announcement": {
+    "enabled": true,
+    "text": "🎉 欢迎来到我的个人主页！Perfect Home v1.0.0 初版发布",
+    "speed": 50,
+    "backgroundColor": "rgba(0, 212, 255, 0.1)",
+    "textColor": "#00d4ff"
+  },
+  "security": {
+    "disableRightClick": true,
+    "disableDevTools": true,
+    "disableSourceView": true,
+    "encryptData": true,
+    "rightClickMessage": "为了浏览体验，本站禁止右键。"
+  }
+}
