@@ -52,17 +52,9 @@
               <span class="back-hint" @click.stop="showSettings = false">←</span>
             </div>
             <div class="changelog-list">
-              <div class="cl-item">
-                <span class="cl-ver">v1.0.2</span>
-                <span class="cl-desc">修复图标 / 英文文档</span>
-              </div>
-              <div class="cl-item">
-                <span class="cl-ver">v1.0.1</span>
-                <span class="cl-desc">右键提醒 / 公告栏</span>
-              </div>
-              <div class="cl-item">
-                <span class="cl-ver">v1.0.0</span>
-                <span class="cl-desc">初版发布</span>
+              <div class="cl-item" v-for="(item, i) in changelog" :key="i">
+                <span class="cl-ver">{{ item.version }}</span>
+                <span class="cl-desc">{{ item.desc }}</span>
               </div>
             </div>
             <button class="settings-btn" @click.stop="store.setOpenState = true">
@@ -135,10 +127,13 @@ const showSettings = ref(false)
 // 响应式读取站点配置
 const siteConfig = computed(() => store.config?.site || {})
 const avatar = computed(() => siteConfig.value.avatar || '👤')
-const siteTitle = computed(() => siteConfig.value.title || 'home')
-const siteDomain = computed(() => siteConfig.value.domain || '.example')
+const siteTitle = computed(() => store.config?.site?.title || 'home')
+const siteDomain = computed(() => store.config?.site?.domain || '.example')
 const identity = computed(() => siteConfig.value.description?.identity || '全栈开发者')
 const interests = computed(() => siteConfig.value.description?.interests || '科技 / AI / 代码')
+
+// 更新日志
+const changelog = computed(() => store.config?.changelog || [])
 
 // 头像类型判断：支持 URL、Markdown ![](url)、Emoji
 const avatarUrl = computed(() => {

@@ -2,7 +2,8 @@
   "site": {
     "title": "home",
     "domain": ".example",
-    "avatar": "👤",    "startDate": "2024-01-01",
+    "avatar": "👤",
+    "startDate": "2024-01-01",
     "description": {
       "identity": "全栈开发者",
       "interests": "科技爱好者 / AI / 代码",
@@ -83,6 +84,11 @@
     "disableDevTools": true,
     "disableSourceView": true,
     "encryptData": true,
-    "rightClickMessage": "为了浏览体验，本站禁止右键。"
-  }
+    "rightClickMessage": "为了浏览体验 本站禁止右键。"
+  },
+  "changelog": [
+    { "version": "v1.2.0", "desc": "待办/时钟/便签/编辑器/公告/打字机" },
+    { "version": "v1.1.0", "desc": "GitHub贡献图/5套主题/倒计时" },
+    { "version": "v1.0.0", "desc": "初版发布" }
+  ]
 }

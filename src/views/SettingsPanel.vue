@@ -5,26 +5,18 @@
       <div class="panel-left">
         <div class="logo-section">
           <div class="domain-logo">
-            <span class="main">主页</span>
-            <span class="sub">.example</span>
+            <span class="main">{{ store.config?.site?.title || '主页' }}</span>
+            <span class="sub">{{ store.config?.site?.domain || '.example' }}</span>
           </div>
-          <div class="version">v1.0.2</div>
+          <div class="version">{{ version }}</div>
         </div>
         
         <div class="changelog">
           <div class="changelog-title">📝 更新日志</div>
           <div class="changelog-list">
-            <div class="changelog-item">
-              <span class="version-tag">v1.0.2</span>
-              <span class="version-desc">修复社交链接图标显示 / GitHub 图标更新 / 新增英文文档</span>
-            </div>
-            <div class="changelog-item">
-              <span class="version-tag">v1.0.1</span>
-              <span class="version-desc">新增右键提醒 / 新增顶部滚动公告栏</span>
-            </div>
-            <div class="changelog-item">
-              <span class="version-tag">v1.0.0</span>
-              <span class="version-desc">初版发布 / 配置文件管理 / 安全防护 / 3D翻转卡片</span>
+            <div class="changelog-item" v-for="(item, i) in changelog" :key="i">
+              <span class="version-tag">{{ item.version }}</span>
+              <span class="version-desc">{{ item.desc }}</span>
             </div>
           </div>
         </div>
@@ -196,9 +188,13 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { mainStore } from '../store'
 
 const store = mainStore()
+
+const version = 'v1.2.0'
+const changelog = computed(() => store.config?.changelog || [])
 
 const menus = [
   { id: 'wallpaper', name: '个性壁纸', icon: '🖼️' },
