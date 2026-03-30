@@ -4,7 +4,10 @@
     <div class="profile-card">
       <div class="avatar-wrapper">
         <div class="avatar-ring"></div>
-        <div class="avatar">{{ avatar }}</div>
+        <!-- 图片头像 -->
+        <img v-if="avatarIsImage" :src="avatarUrl" class="avatar-img" alt="avatar" />
+        <!-- Emoji 头像 -->
+        <div v-else class="avatar">{{ avatar }}</div>
       </div>
       <div class="profile-info">
         <div class="logo-text">
@@ -137,6 +140,18 @@ const siteDomain = computed(() => siteConfig.value.domain || '.example')
 const identity = computed(() => siteConfig.value.description?.identity || '全栈开发者')
 const interests = computed(() => siteConfig.value.description?.interests || '科技 / AI / 代码')
 
+// 头像类型判断：支持 URL、Markdown ![](url)、Emoji
+const avatarUrl = computed(() => {
+  const a = avatar.value
+  // Markdown 格式：![alt](url)
+  const mdMatch = a.match(/!\[.*?\]\((.*?)\)/)
+  if (mdMatch) return mdMatch[1]
+  // 直接 URL
+  if (a.startsWith('http://') || a.startsWith('https://') || a.startsWith('/')) return a
+  return null
+})
+const avatarIsImage = computed(() => !!avatarUrl.value)
+
 const getIcon = (i) => ({github:'⬛',bilibili:'📺',youtube:'▶️',twitter:'𝕏',telegram:'✈️',mail:'✉️',code:'💻',blog:'📝',music:'🎵',book:'📚',camera:'📷',folder:'📁',user:'👤',link:'🔗',gitee:'🦉'}[i] || '🔗')
 </script>
 
@@ -174,8 +189,7 @@ const getIcon = (i) => ({github:'⬛',bilibili:'📺',youtube:'▶️',twitter:'
   height: 50px;
 }
 
-.avatar-ring {
-  position: absolute;
+.avatar-ring {  position: absolute;
   inset: 0;
   border-radius: 50%;
   background: conic-gradient(from 0deg, var(--theme-primary), var(--theme-secondary), var(--theme-primary));
@@ -193,6 +207,15 @@ const getIcon = (i) => ({github:'⬛',bilibili:'📺',youtube:'▶️',twitter:'
   align-items: center;
   justify-content: center;
   font-size: 24px;
+}
+
+.avatar-img {
+  position: absolute;
+  inset: 3px;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .profile-info { flex: 1; }

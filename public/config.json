@@ -2,8 +2,7 @@
   "site": {
     "title": "home",
     "domain": ".example",
-    "avatar": "👤",
-    "startDate": "2024-01-01",
+    "avatar": "👤",    "startDate": "2024-01-01",
     "description": {
       "identity": "全栈开发者",
       "interests": "科技爱好者 / AI / 代码",
