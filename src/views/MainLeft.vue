@@ -4,14 +4,14 @@
     <div class="profile-card">
       <div class="avatar-wrapper">
         <div class="avatar-ring"></div>
-        <div class="avatar">👤</div>
+        <div class="avatar">{{ avatar }}</div>
       </div>
       <div class="profile-info">
         <div class="logo-text">
-          <span class="main">home</span>
-          <span class="sub">.example</span>
+          <span class="main">{{ siteTitle }}</span>
+          <span class="sub">{{ siteDomain }}</span>
         </div>
-        <div class="profile-desc">全栈开发者 · 科技爱好者</div>
+        <div class="profile-desc">{{ identity }} · {{ interests }}</div>
       </div>
     </div>
 
@@ -29,11 +29,11 @@
             <div class="info-list">
               <div class="info-row">
                 <span class="info-label">身份</span>
-                <span class="info-value">全栈开发者</span>
+                <span class="info-value">{{ identity }}</span>
               </div>
               <div class="info-row">
                 <span class="info-label">兴趣</span>
-                <span class="info-value">科技 / AI / 代码</span>
+                <span class="info-value">{{ interests }}</span>
               </div>
             </div>
             <div class="flip-tip">点击翻转 →</div>
@@ -123,11 +123,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { mainStore } from '../store'
 
 const store = mainStore()
 const showSettings = ref(false)
+
+// 响应式读取站点配置
+const siteConfig = computed(() => store.config?.site || {})
+const avatar = computed(() => siteConfig.value.avatar || '👤')
+const siteTitle = computed(() => siteConfig.value.title || 'home')
+const siteDomain = computed(() => siteConfig.value.domain || '.example')
+const identity = computed(() => siteConfig.value.description?.identity || '全栈开发者')
+const interests = computed(() => siteConfig.value.description?.interests || '科技 / AI / 代码')
 
 const getIcon = (i) => ({github:'⬛',bilibili:'📺',youtube:'▶️',twitter:'𝕏',telegram:'✈️',mail:'✉️',code:'💻',blog:'📝',music:'🎵',book:'📚',camera:'📷',folder:'📁',user:'👤',link:'🔗',gitee:'🦉'}[i] || '🔗')
 </script>

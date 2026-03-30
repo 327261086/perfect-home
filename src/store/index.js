@@ -404,9 +404,12 @@ export const mainStore = defineStore('main', () => {
   const updateSiteConfig = (site) => {
     siteStartDate.value = site.startDate || siteStartDate.value
     siteStartShow.value = site.description?.showStartDate ?? siteStartShow.value
-    // 同时更新 config 引用
+    // 深度更新 config.site，触发响应式
     if (config.value) {
-      config.value.site = { ...config.value.site, ...site }
+      config.value = {
+        ...config.value,
+        site: { ...config.value.site, ...site }
+      }
     }
   }
 
