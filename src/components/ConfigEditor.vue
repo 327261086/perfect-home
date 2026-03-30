@@ -168,7 +168,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, computed } from 'vue'
 import { mainStore } from '../store'
 
 const emit = defineEmits(['close'])
@@ -182,6 +182,18 @@ const activeTab = ref('site')
 
 const PASSWORD_KEY = 'perfect-home-config-password'
 const CONFIG_KEY = 'perfect-home-edited-config'
+
+// 打开时临时允许右键菜单，关闭时恢复
+const enableContextMenu = () => {
+  document.oncontextmenu = null
+  document.body.style.userSelect = 'auto'
+  document.body.style.webkitUserSelect = 'auto'
+}
+const disableContextMenu = () => {
+  if (store.config?.security?.disableRightClick) {
+    document.oncontextmenu = () => false
+  }
+}
 
 // 编辑配置
 const editConfig = reactive({
@@ -210,6 +222,9 @@ const editConfig = reactive({
 })
 
 onMounted(() => {
+  // 允许右键菜单
+  enableContextMenu()
+  
   // 检查是否有密码
   hasPassword.value = !!localStorage.getItem(PASSWORD_KEY)
   
@@ -233,11 +248,15 @@ onMounted(() => {
   }
 })
 
+onUnmounted(() => {
+  // 关闭时恢复右键限制
+  disableContextMenu()
+})
+
 const unlock = () => {
   const savedPassword = localStorage.getItem(PASSWORD_KEY)
   
   if (!savedPassword) {
-    // 首次设置密码
     if (inputPassword.value.length < 4) {
       error.value = '密码至少4位'
       return
@@ -246,7 +265,6 @@ const unlock = () => {
     isUnlocked.value = true
     error.value = ''
   } else {
-    // 验证密码
     if (inputPassword.value === savedPassword) {
       isUnlocked.value = true
       error.value = ''
@@ -269,18 +287,13 @@ const changePassword = () => {
   }
 }
 
-const addSocial = () => {  editConfig.socials.push({ id: Date.now(), name: '', url: '', icon: 'link', color: '#00d4ff' })
+const addSocial = () => {
+  editConfig.socials.push({ id: Date.now(), name: '', url: '', icon: 'link', color: '#00d4ff' })
 }
 
 const delSocial = (i) => {
   editConfig.socials.splice(i, 1)
 }
-
-// 打字机文案：textarea 多行 ↔ 数组
-const typewriterText = computed({
-  get: () => (editConfig.site.typewriterLines || []).join('\n'),
-  set: (v) => { editConfig.site.typewriterLines = v.split('\n').filter(l => l.trim()) }
-})
 
 const addLink = () => {
   editConfig.links.push({ id: Date.now(), name: '', url: '', icon: 'folder', color: '#00d4ff' })
@@ -290,8 +303,13 @@ const delLink = (i) => {
   editConfig.links.splice(i, 1)
 }
 
+// 打字机文案：textarea 多行 ↔ 数组
+const typewriterText = computed({
+  get: () => (editConfig.site.typewriterLines || []).join('\n'),
+  set: (v) => { editConfig.site.typewriterLines = v.split('\n').filter(l => l.trim()) }
+})
+
 const saveConfig = () => {
-  // 保存到 localStorage
   localStorage.setItem(CONFIG_KEY, JSON.stringify({
     site: editConfig.site,
     socials: editConfig.socials,
@@ -299,14 +317,10 @@ const saveConfig = () => {
     announcement: editConfig.announcement
   }))
   
-  // 应用站点信息到 store
   store.updateSiteConfig(editConfig.site)
-  
-  // 替换社交链接和项目链接（而非追加）
   store.replaceSocials([...editConfig.socials])
   store.replaceLinks([...editConfig.links])
   
-  // 更新公告配置
   if (store.config) {
     store.config.announcement = { ...editConfig.announcement }
   }
