@@ -5,12 +5,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { mainStore } from '../store'
 
 const store = mainStore()
 
-// 从 config 读取标语，fallback 默认文案
+// 响应式读取打字机文案
 const defaultLines = [
   '欢迎来到我的主页 👋',
   '代码改变世界 🌍',
@@ -18,9 +18,10 @@ const defaultLines = [
   '生活不止眼前的 Bug 🐛'
 ]
 
-const lines = ref(
-  store.config?.site?.typewriterLines || defaultLines
-)
+const lines = computed(() => {
+  const configLines = store.config?.site?.typewriterLines
+  return configLines?.length ? configLines : defaultLines
+})
 
 const displayText = ref('')
 const isTyping = ref(true)
@@ -37,7 +38,6 @@ const typeNext = () => {
     isTyping.value = true
     timer = setTimeout(typeNext, 80)
   } else {
-    // 打完一行，停顿后删除
     isTyping.value = false
     pauseTimer = setTimeout(deleteText, 2000)
   }
@@ -49,7 +49,6 @@ const deleteText = () => {
     isTyping.value = true
     timer = setTimeout(deleteText, 40)
   } else {
-    // 删完，切换到下一行
     currentLineIdx = (currentLineIdx + 1) % lines.value.length
     charIdx = 0
     isTyping.value = false
@@ -57,11 +56,23 @@ const deleteText = () => {
   }
 }
 
-onMounted(() => {
+const startTyping = () => {
   if (lines.value.length > 0) {
+    currentLineIdx = 0
+    charIdx = 0
+    displayText.value = ''
     timer = setTimeout(typeNext, 800)
   }
-})
+}
+
+// 监听配置变化，重新开始打字
+watch(() => lines.value, () => {
+  if (timer) clearTimeout(timer)
+  if (pauseTimer) clearTimeout(pauseTimer)
+  startTyping()
+}, { deep: true })
+
+onMounted(startTyping)
 
 onUnmounted(() => {
   if (timer) clearTimeout(timer)

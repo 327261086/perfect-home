@@ -81,6 +81,10 @@
             <label>倒计时日期</label>
             <input type="date" v-model="editConfig.site.countdownDate" />
           </div>
+          <div class="form-group">
+            <label>打字机标语（每行一句，循环显示）</label>
+            <textarea v-model="typewriterText" rows="4" placeholder="欢迎来到我的主页 👋&#10;代码改变世界 🌍"></textarea>
+          </div>
         </div>
         
         <!-- 社交链接 -->
@@ -164,7 +168,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { mainStore } from '../store'
 
 const emit = defineEmits(['close'])
@@ -265,13 +269,18 @@ const changePassword = () => {
   }
 }
 
-const addSocial = () => {
-  editConfig.socials.push({ id: Date.now(), name: '', url: '', icon: 'link', color: '#00d4ff' })
+const addSocial = () => {  editConfig.socials.push({ id: Date.now(), name: '', url: '', icon: 'link', color: '#00d4ff' })
 }
 
 const delSocial = (i) => {
   editConfig.socials.splice(i, 1)
 }
+
+// 打字机文案：textarea 多行 ↔ 数组
+const typewriterText = computed({
+  get: () => (editConfig.site.typewriterLines || []).join('\n'),
+  set: (v) => { editConfig.site.typewriterLines = v.split('\n').filter(l => l.trim()) }
+})
 
 const addLink = () => {
   editConfig.links.push({ id: Date.now(), name: '', url: '', icon: 'folder', color: '#00d4ff' })

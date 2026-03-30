@@ -1,9 +1,9 @@
 <template>
-  <div v-if="config?.announcement?.enabled" class="announcement-bar">
-    <div class="announcement-content" :style="{ color: config.announcement.textColor }">
+  <div v-if="announcement?.enabled" class="announcement-bar">
+    <div class="announcement-content" :style="{ color: announcement.textColor }">
       <div class="announcement-text">
-        <span v-for="(item, index) in repeatedText" :key="index" class="announcement-item">
-          {{ config.announcement.text }}
+        <span v-for="(_, i) in 3" :key="i" class="announcement-item">
+          {{ announcement.text }}
         </span>
       </div>
     </div>
@@ -16,11 +16,17 @@ import { mainStore } from '../store'
 
 const store = mainStore()
 
-const config = computed(() => store.config)
-
-// 重复文本以实现无缝滚动
-const repeatedText = computed(() => {
-  return Array(3).fill(null)
+// 响应式读取公告配置，兼容 backgroundColor 和 bgColor 两种字段
+const announcement = computed(() => {
+  const a = store.config?.announcement
+  if (!a) return null
+  return {
+    ...a,
+    // 统一用 bgColor，兼容旧字段 backgroundColor
+    bgColor: a.bgColor || a.backgroundColor || 'rgba(0, 212, 255, 0.1)',
+    textColor: a.textColor || '#00d4ff',
+    speed: a.speed || 50
+  }
 })
 </script>
 
@@ -31,8 +37,8 @@ const repeatedText = computed(() => {
   left: 0;
   right: 0;
   height: 40px;
-  background: v-bind('config?.announcement?.backgroundColor || "rgba(0, 212, 255, 0.1)"');
-  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  background: v-bind('announcement?.bgColor || "rgba(0, 212, 255, 0.1)"');
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -54,8 +60,7 @@ const repeatedText = computed(() => {
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.5px;
-  
-  animation-duration: v-bind('(config?.announcement?.speed || 50) + "s"');
+  animation-duration: v-bind('(announcement?.speed || 50) + "s"');
 }
 
 .announcement-item {
@@ -64,26 +69,13 @@ const repeatedText = computed(() => {
 }
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
 }
 
-/* 响应式 */
 @media (max-width: 768px) {
-  .announcement-bar {
-    height: 35px;
-  }
-  
-  .announcement-text {
-    font-size: 12px;
-  }
-  
-  .announcement-item {
-    padding: 0 20px;
-  }
+  .announcement-bar { height: 35px; }
+  .announcement-text { font-size: 12px; }
+  .announcement-item { padding: 0 20px; }
 }
 </style>
