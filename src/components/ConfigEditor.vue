@@ -237,16 +237,12 @@ const saveConfig = () => {
     links: editConfig.links
   }))
   
-  // 应用到 store
-  store.setConfig({ ...store.config, site: editConfig.site })
+  // 应用站点信息到 store
+  store.updateSiteConfig(editConfig.site)
   
-  // 更新社交链接和项目链接
-  if (editConfig.socials.length) {
-    editConfig.socials.forEach(s => store.addSocial(s))
-  }
-  if (editConfig.links.length) {
-    editConfig.links.forEach(l => store.addLink(l))
-  }
+  // 替换社交链接和项目链接（而非追加）
+  store.replaceSocials([...editConfig.socials])
+  store.replaceLinks([...editConfig.links])
   
   alert('配置已保存！')
   emit('close')

@@ -397,6 +397,18 @@ export const mainStore = defineStore('main', () => {
   const saveSocials = () => localStorage.setItem('socials', JSON.stringify(socials.value))
   const addSocial = (social) => { socials.value.push({ id: Date.now(), ...social }); saveSocials() }
   const delSocial = (id) => { socials.value = socials.value.filter(s => s.id !== id); saveSocials() }
+  const replaceSocials = (list) => { socials.value = list; saveSocials() }
+  const replaceLinks = (list) => { links.value = list; saveLinks() }
+  
+  // 更新站点配置
+  const updateSiteConfig = (site) => {
+    siteStartDate.value = site.startDate || siteStartDate.value
+    siteStartShow.value = site.description?.showStartDate ?? siteStartShow.value
+    // 同时更新 config 引用
+    if (config.value) {
+      config.value.site = { ...config.value.site, ...site }
+    }
+  }
 
   // ==================== 粒子效果 ====================
   const particlesEnabled = ref(localStorage.getItem('particlesEnabled') !== 'false')
@@ -449,8 +461,9 @@ export const mainStore = defineStore('main', () => {
     pomoDuration, pomoTime, pomoRunning, pomoMode, pomoCompleted, pomoStats,
     startPomo, stopPomo, resetPomo, setPomoDuration,
     notesEnabled, notes, addNote, delNote,
-    links, addLink, delLink,
-    socials, addSocial, delSocial,
+    links, addLink, delLink, replaceLinks,
+    socials, addSocial, delSocial, replaceSocials,
+    updateSiteConfig,
     mouseX, mouseY, cursorGlow, updateMouse,
     particlesEnabled, setParticlesEnabled,
     customCursorEnabled, setCustomCursorEnabled
