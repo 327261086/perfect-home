@@ -2,12 +2,12 @@
   <div class="background">
     <div class="bg-image" :style="{ backgroundImage: `url(${store.currentBg})` }"></div>
     <div class="bg-overlay"></div>
-    <canvas ref="canvas" class="particles"></canvas>
+    <canvas ref="canvas" class="particles" v-show="store.particlesEnabled"></canvas>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { mainStore } from '../store'
 
 const store = mainStore()
@@ -23,7 +23,7 @@ const initParticles = () => {
   ctx = cvs.getContext('2d')
   cvs.width = window.innerWidth
   cvs.height = window.innerHeight
-  
+  particles = []
   for (let i = 0; i < 50; i++) {
     particles.push({
       x: Math.random() * cvs.width,
@@ -34,9 +34,27 @@ const initParticles = () => {
       color: `rgba(0, 212, 255, ${Math.random() * 0.5 + 0.2})`
     })
   }
-  
   animate()
 }
+
+const stopParticles = () => {
+  if (animationId) {
+    cancelAnimationFrame(animationId)
+    animationId = null
+  }
+  if (ctx && canvas.value) {
+    ctx.clearRect(0, 0, canvas.value.width, canvas.value.height)
+  }
+}
+
+// 监听粒子开关
+watch(() => store.particlesEnabled, (val) => {
+  if (val) {
+    initParticles()
+  } else {
+    stopParticles()
+  }
+})
 
 const animate = () => {
   if (!ctx) return
@@ -98,7 +116,9 @@ const startAutoSwitch = () => {
 }
 
 onMounted(() => {
-  initParticles()
+  if (store.particlesEnabled) {
+    initParticles()
+  }
   store.initWallpapers()
   
   // 启动自动切换

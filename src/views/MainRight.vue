@@ -1,23 +1,29 @@
 <template>
   <div class="right">
-    <!-- 上方 2x2 网格 -->
+    <!-- 上方 2x3 网格 -->
     <div class="top-widgets">
       <ClockWidget />
       <WeatherWidget />
       <VisitorWidget />
+      <WorldClockWidget />
       <HitokotoWidget />
+      <CountdownWidget />
     </div>
     
-    <!-- 中间 2x2：番茄钟 + 便签板 -->
+    <!-- 中间 2x2：番茄钟 + 快捷便签 -->
     <div class="middle-widgets">
       <PomodoroWidget />
-      <NotesWidget v-if="store.notesEnabled" />
+      <QuickNotesWidget />
     </div>
     
-    <!-- 底部独占：项目链接 -->
-    <div class="bottom-widgets">
-      <LinksWidget class="full-width" />
+    <!-- 底部：待办 + GitHub贡献图 -->
+    <div class="bottom-section">
+      <TodoWidget />
+      <GithubContribWidget />
     </div>
+    
+    <!-- 项目链接（独占一行） -->
+    <LinksWidget />
   </div>
 </template>
 
@@ -27,9 +33,13 @@ import ClockWidget from '../components/widgets/ClockWidget.vue'
 import WeatherWidget from '../components/widgets/WeatherWidget.vue'
 import VisitorWidget from '../components/widgets/VisitorWidget.vue'
 import HitokotoWidget from '../components/widgets/HitokotoWidget.vue'
+import CountdownWidget from '../components/widgets/CountdownWidget.vue'
+import WorldClockWidget from '../components/widgets/WorldClockWidget.vue'
+import TodoWidget from '../components/widgets/TodoWidget.vue'
+import QuickNotesWidget from '../components/widgets/QuickNotesWidget.vue'
 import PomodoroWidget from '../components/widgets/PomodoroWidget.vue'
 import LinksWidget from '../components/widgets/LinksWidget.vue'
-import NotesWidget from '../components/widgets/NotesWidget.vue'
+import GithubContribWidget from '../components/widgets/GithubContribWidget.vue'
 
 const store = mainStore()
 </script>
@@ -49,34 +59,36 @@ const store = mainStore()
   }
 }
 
-// 上方 2x2 网格
+// 上方 2x3 网格
 .top-widgets {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   
-  @media (max-width: 600px) {
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 }
 
-// 中间 2x2：番茄钟 + 便签板
+// 中间 2x2
 .middle-widgets {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   
-  @media (max-width: 600px) {
+  @media (max-width: 480px) {
     grid-template-columns: 1fr;
   }
 }
 
-// 底部独占：项目链接
-.bottom-widgets {
-  margin-top: auto;
+// 底部 2列
+.bottom-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
   
-  .full-width {
-    width: 100%;
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
   }
 }
 </style>

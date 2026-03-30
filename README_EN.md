@@ -1,10 +1,10 @@
-# Perfect Home v1.0.2
+# Perfect Home v1.0.3
 
 > 🏠 Modern Personal Homepage | Vue 3 + Vite + Pinia | Glassmorphism · 3D Flip · Theme Toggle · Pomodoro · Weather · Quotes | JSON Config · No Backend
 
 **中文** | [English](README_EN.md)
 
-![Version](https://img.shields.io/badge/version-1.0.2-blue)
+![Version](https://img.shields.io/badge/version-1.0.3-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
 
@@ -311,6 +311,6 @@ Thanks to these open-source projects and services:
 
 ---
 
-**Version**: v1.0.2  
-**Release Date**: 2026-03-26  
+**Version**: v1.0.3  
+**Release Date**: 2026-03-27  
 **Status**: ✅ Production Ready

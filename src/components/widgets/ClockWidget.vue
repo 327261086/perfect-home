@@ -46,7 +46,7 @@
         </div>
         
         <div class="date">{{ formattedDate }}</div>
-        <div class="greeting">{{ greeting }}</div>
+        <div class="greeting">{{ store.greeting }}</div>
       </div>
     </div>
     
@@ -129,16 +129,6 @@ const formattedDate = computed(() => {
   const d = new Date()
   const opts = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }
   return d.toLocaleDateString(lang.value === 'zh' ? 'zh-CN' : 'en-US', opts)
-})
-
-const greeting = computed(() => {
-  const h = new Date().getHours()
-  if (h < 6) return t('night')
-  if (h < 12) return t('morning')
-  if (h < 14) return t('noon')
-  if (h < 18) return t('afternoon')
-  if (h < 22) return t('evening')
-  return t('night')
 })
 
 const playlist = [
@@ -291,16 +281,19 @@ const nextSong = () => {
 }
 
 .date {
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.6);
   text-align: center;
+  margin-top: 8px;
 }
 
 .greeting {
-  font-size: 0.65rem;
-  color: #00d4ff;
+  font-size: 0.75rem;
+  color: var(--theme-primary);
   text-align: center;
   margin-top: 6px;
+  font-weight: 500;
+  text-shadow: 0 0 10px var(--theme-glow);
 }
 
 // 音乐卡片

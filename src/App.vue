@@ -1,5 +1,7 @@
 <template>
   <div class="app" @mousemove="store.updateMouse">
+    <!-- 自定义鼠标 -->
+    <CustomCursor />
     <!-- 公告栏 -->
     <Announcement />
 
@@ -11,6 +13,8 @@
 
     <!-- Main Content -->
     <main id="main" v-if="store.imgLoadStatus">
+      <!-- 打字机标语 -->
+      <TypewriterBanner />
       <div class="container">
         <!-- Left Column -->
         <MainLeft />
@@ -26,6 +30,14 @@
 
     <!-- Settings Panel -->
     <SettingsPanel v-if="store.setOpenState" />
+    
+    <!-- Config Editor -->
+    <ConfigEditor v-if="showConfigEditor" @close="showConfigEditor = false" />
+    
+    <!-- Config Editor Float Button -->
+    <button class="config-float-btn" @click="showConfigEditor = true" title="配置编辑器">
+      ⚙️
+    </button>
 
     <!-- Music Player Panel -->
     <MusicPanel v-if="store.musicOpenState" />
@@ -48,10 +60,14 @@ import MainRight from './views/MainRight.vue'
 import SettingsPanel from './views/SettingsPanel.vue'
 import MusicPanel from './components/MusicPanel.vue'
 import Footer from './components/Footer.vue'
+import ConfigEditor from './components/ConfigEditor.vue'
+import TypewriterBanner from './components/TypewriterBanner.vue'
+import CustomCursor from './components/CustomCursor.vue'
 
 const store = mainStore()
 const mobileOpen = ref(false)
 const config = ref(null)
+const showConfigEditor = ref(false)
 
 const isMobile = computed(() => store.innerWidth < 720)
 
@@ -71,6 +87,9 @@ onMounted(async () => {
   
   // 保存配置到store
   store.setConfig(config.value)
+  
+  // 初始化主题（应用保存的主题）
+  store.setTheme(store.activeTheme)
   
   store.setInnerWidth(window.innerWidth)
   window.addEventListener('resize', () => store.setInnerWidth(window.innerWidth))
@@ -131,6 +150,28 @@ onMounted(async () => {
   
   @media (max-width: 900px) {
     display: flex;
+  }
+}
+
+.config-float-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 99;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--theme-gradient);
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px var(--theme-glow);
   }
 }
 </style>

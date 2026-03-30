@@ -100,11 +100,19 @@
               </div>
             </div>
             <div class="setting-item">
-              <span class="setting-label">建站日期显示</span>
-              <label class="toggle">
-                <input type="checkbox" v-model="store.siteStartShow" />
-                <span class="slider"></span>
-              </label>
+              <span class="setting-label">配色方案</span>
+              <div class="color-themes">
+                <button 
+                  v-for="(c, key) in store.themes" 
+                  :key="key"
+                  :class="['color-btn', { active: store.activeTheme === key }]"
+                  :style="{ background: c.gradient }"
+                  :title="c.name"
+                  @click="store.setTheme(key)"
+                >
+                  <span class="color-name">{{ c.name }}</span>
+                </button>
+              </div>
             </div>
             <div class="setting-item">
               <span class="setting-label">音乐点击打开面板</span>
@@ -114,8 +122,18 @@
               </label>
             </div>
             <div class="setting-item">
-              <span class="setting-label">设置建站日期</span>
-              <input type="date" v-model="store.siteStartDate" class="date-input" />
+              <span class="setting-label">粒子背景特效</span>
+              <label class="toggle">
+                <input type="checkbox" :checked="store.particlesEnabled" @change="store.setParticlesEnabled($event.target.checked)" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <span class="setting-label">自定义鼠标特效</span>
+              <label class="toggle">
+                <input type="checkbox" :checked="store.customCursorEnabled" @change="store.setCustomCursorEnabled($event.target.checked)" />
+                <span class="slider"></span>
+              </label>
             </div>
           </div>
           
@@ -611,5 +629,43 @@ applyTheme(store.themeMode)
     border-radius: 50%;
     cursor: pointer;
   }
+}
+
+.color-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.color-btn {
+  width: 80px;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  &.active {
+    border-color: #fff;
+    box-shadow: 0 0 20px var(--theme-glow);
+  }
+}
+
+.color-name {
+  font-size: 0.65rem;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
 }
 </style>

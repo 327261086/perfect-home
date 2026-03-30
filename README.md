@@ -1,51 +1,54 @@
-# Perfect Home v1.0.2
+# Perfect Home v1.2.0
 
-> 🏠 现代化个人主页 | Vue 3 + Vite + Pinia | 玻璃态设计 · 3D翻转 · 主题切换 · 番茄钟 · 天气 · 一言 | JSON配置 · 零后端
+> 🏠 现代化个人主页 | Vue 3 + Vite + Pinia | 玻璃态设计 · 5套主题 · GitHub贡献图 · 待办清单 · 世界时钟 · 打字机标语 | JSON配置 · 零后端
 
 [English](README_EN.md) | **中文**
 
-![Version](https://img.shields.io/badge/version-1.0.2-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
 
 ## ✨ 核心功能
 
 ### 左侧模块
-- 🎭 **头像** - 旋转光环动画
-- 📋 **站点简介** - 3D翻转卡片
-- 📝 **更新日志** - 可滚动查看版本历史
+- 🎭 **头像卡片** - 旋转光环动画
+- 📋 **3D翻转卡片** - 正面站点简介 / 背面更新日志
 - ⏳ **时间胶囊** - 今日/本周/本月/今年进度条
-- 🔗 **社交链接** - GitHub、Twitter、Email等
+- 🔗 **社交链接** - 4列网格，支持自定义
 
-### 右侧模块 (2x2 + 2x2 + 独占)
-- ⏰ **时间卡片** - LED点状显示 HH:MM:SS
-- 🌤️ **天气卡片** - 实时温度、天气、城市
-- 🌍 **访客卡片** - IP地址、城市、时区
-- 💬 **一言卡片** - 随机句子、作者
-- 🍅 **番茄钟** - 25/15/5分钟模式
-- 📝 **便签板** - 添加/删除便签
-- 🔗 **项目链接** - 2x2网格布局
+### 右侧模块
+- ⏰ **时钟** - LED点状显示 + 7段中文问候语
+- 🌤️ **天气** - 实时温度、湿度、风速、100+图标映射
+- 🌍 **访客** - IP定位、城市、时区
+- 🌐 **世界时钟** - 北京/东京/洛杉矶/伦敦实时显示
+- 💬 **一言/古诗/英语** - 三种内容一键切换
+- ⏱️ **倒计时** - 自定义目标日期倒计时
+- 🍅 **番茄钟** - 25/15/5分钟专注模式
+- 📌 **快捷便签** - 5色分类，折叠/展开
+- ✅ **待办清单** - 添加/完成/删除，进度显示
+- 🐙 **GitHub贡献图** - 52周热力图 + 年度统计
+- 🔗 **项目链接** - 自定义链接卡片
 
 ### 全局功能
-- 🎨 **主题切换** - 白天/黑夜/自动
-- 🌐 **多语言** - 中文/英文
-- 🖼️ **背景图片** - 多种来源
-- 🔄 **自动切换** - 每30秒更新背景
-- ✨ **粒子效果** - 鼠标交互动画
+- 🎨 **5套预设主题** - 赛博朋克/落日余晖/清新森林/深海之谜/极光幻彩
+- ✍️ **打字机标语** - 顶部循环打字动画，支持自定义文案
+- 🖱️ **自定义鼠标** - 主题色跟随光标，平滑延迟外圈
+- ✨ **粒子背景** - 鼠标交互动画，可开关
+- 🖼️ **多种壁纸** - 默认/每日/风景/动漫，每30秒自动切换
 - 🎵 **音乐播放器** - 3D翻转效果
 - ⚙️ **全局设置** - 完整配置面板
+- 🔐 **密码配置编辑器** - 页面内安全编辑站点信息
 - 📢 **顶部公告** - 无缝滚动公告栏
-- ⚠️ **右键提醒** - 禁止右键提示
+- 📊 **访客统计** - 今日/累计访问次数
+- 🕐 **站点计时器** - Footer精确到秒 + 接地气随机标语
+- 📱 **移动端适配** - 响应式布局，≤480px单列
 
 ### 🔐 安全防护
 - ✅ 禁止右键菜单
 - ✅ 禁止F12调试
 - ✅ 禁止Ctrl+U查看源代码
-- ✅ 禁止文本选中/复制/粘贴
-- ✅ 禁止拖拽
 - ✅ 开发者工具检测
 - ✅ 配置完整性检查
-- ✅ 自动恢复被篡改配置
 
 ---
 
@@ -60,259 +63,131 @@
 npm install
 ```
 
-### 开发模式
+### 本地开发
 ```bash
 npm run dev
 ```
 
-访问 `http://localhost:5174`
-
-### 构建生产版本
+### 构建部署
 ```bash
 npm run build
 ```
 
-### 部署
-```bash
-npm run deploy
-```
-
 ---
 
-## 📝 配置管理
+## ⚙️ 配置说明
 
-所有个人信息、社交链接、项目链接都存储在 **`public/config.json`** 文件中。
-
-### 编辑方式
-
-1. **打开配置文件**：`public/config.json`
-2. **修改内容**（仅你能查看）
-3. **保存文件**
-4. **刷新页面** - 配置自动加载
-
-### 配置结构
+编辑 `public/config.json`：
 
 ```json
 {
   "site": {
-    "title": "home",
-    "domain": ".example",
-    "avatar": "👤",
-    "startDate": "2024-01-01",
+    "title": "home",           // 站点标题
+    "domain": ".example",      // 域名后缀
+    "avatar": "👤",            // 头像 Emoji
+    "startDate": "2024-01-01", // 建站日期（Footer计时器起点）
+    "github": "your-username", // GitHub 用户名（贡献图）
+    "typewriterLines": [       // 打字机标语（可自定义）
+      "欢迎来到我的主页 👋",
+      "代码改变世界 🌍"
+    ],
+    "countdownName": "新年倒计时", // 倒计时名称
+    "countdownDate": "2027-01-01", // 倒计时目标日期
     "description": {
       "identity": "全栈开发者",
-      "interests": "科技爱好者 / AI / 代码",
-      "showStartDate": true
+      "interests": "科技 / AI / 代码"
     }
   },
-  "socials": [
-    {
-      "id": "github",
-      "name": "GitHub",
-      "url": "https://github.com/你的用户名",
-      "icon": "github",
-      "color": "#333333"
-    }
-  ],
-  "links": [
-    {
-      "id": "project1",
-      "name": "项目名称",
-      "url": "https://example.com",
-      "icon": "github",
-      "color": "#00d4ff"
-    }
-  ],
+  "socials": [...],  // 社交链接
+  "links": [...],    // 项目链接
   "announcement": {
     "enabled": true,
-    "text": "🎉 欢迎来到我的个人主页！",
-    "speed": 50,
-    "backgroundColor": "rgba(0, 212, 255, 0.1)",
-    "textColor": "#00d4ff"
-  },
-  "security": {
-    "disableRightClick": true,
-    "disableDevTools": true,
-    "disableSourceView": true,
-    "encryptData": true,
-    "rightClickMessage": "为了浏览体验，本站禁止右键。"
+    "text": "公告内容"
   }
 }
 ```
 
 ---
 
-## 🎨 技术栈
+## 🎨 主题系统
 
-- **框架**: Vue 3.4
-- **构建工具**: Vite 5
-- **状态管理**: Pinia
-- **样式**: SCSS
-- **字体**: HarmonyOS Sans (CDN)
+设置面板 → 个性化 → 配色方案，5套预设：
 
----
-
-## 📦 API 集成
-
-- **天气**: Open-Meteo (`api.open-meteo.com`)
-- **访客**: ipapi.co (`https://ipapi.co/json/`)
-- **一言**: Hitokoto (`https://v1.hitokoto.cn`)
-- **壁纸**: Unsplash + Bing + Picsum
-- **音乐**: SoundHelix (`https://www.soundhelix.com/examples/mp3/`)
-- **GitHub**: Star数量 (`https://api.github.com/repos/327261086/perfect-home`)
+| 主题 | 主色 | 副色 |
+|------|------|------|
+| 赛博朋克 | `#00d4ff` | `#7b2ff7` |
+| 落日余晖 | `#ff6b6b` | `#ffa502` |
+| 清新森林 | `#26de81` | `#20bf6b` |
+| 深海之谜 | `#4834d4` | `#686de0` |
+| 极光幻彩 | `#ff9ff3` | `#54a0ff` |
 
 ---
 
-## 🎯 主题色
+## 🐙 GitHub 贡献图
 
-- **青色**: `#00d4ff`
-- **紫色**: `#7b2ff7`
+点击贡献图右上角设置按钮，输入 GitHub 用户名（可选 Token 查看私有贡献）。
 
----
-
-## 📱 响应式设计
-
-- **桌面**: 左右分栏 50% + 50%
-- **移动**: 单栏布局（@media max-width: 900px）
-
----
-
-## 📁 项目结构
-
-```
-perfect-home/
-├── public/
-│   └── config.json              ← 配置文件（仅你能查看）
-├── src/
-│   ├── views/
-│   │   ├── MainLeft.vue         ← 左侧模块
-│   │   ├── MainRight.vue        ← 右侧模块
-│   │   └── SettingsPanel.vue    ← 设置面板
-│   ├── components/
-│   │   ├── Announcement.vue     ← 公告栏
-│   │   ├── Background.vue       ← 背景+粒子
-│   │   ├── MusicPanel.vue       ← 音乐播放器
-│   │   └── widgets/             ← 各个小部件
-│   ├── utils/
-│   │   ├── config.js            ← 配置加载
-│   │   └── security.js          ← 安全防护
-│   ├── store/index.js           ← Pinia状态管理
-│   ├── styles/global.scss       ← 全局样式
-│   └── App.vue                  ← 主应用
-├── index.html
-├── package.json
-├── vite.config.js
-└── README.md
+或在 `config.json` 中配置：
+```json
+{ "site": { "github": "your-username" } }
 ```
 
 ---
 
-## 📚 文档
+## 🔐 密码配置编辑器
 
-| 文档 | 说明 |
-|------|------|
-| 📖 [搭建教程](docs/SETUP_GUIDE.md) | 详细安装、配置、部署指南 |
-| 🔧 [配置指南](docs/CONFIG_GUIDE.md) | config.json 完整配置说明 |
-| 📢 [公告配置](docs/ANNOUNCEMENT_GUIDE.md) | 公告栏和右键提醒配置 |
-| 🎨 [iconfont迁移](docs/ICONFONT_QUICK_START.md) | 图标升级指南 |
-| 📝 [发布说明](docs/RELEASE_NOTES.md) | 版本更新日志 |
-| 🌐 [English Setup Guide](docs/SETUP_GUIDE_EN.md) | English Documentation |
-| 🌐 [English Config Guide](docs/CONFIG_GUIDE_EN.md) | English Configuration |
-| 📖 [Wiki](https://github.com/327261086/perfect-home/wiki) | 常见问题和进阶教程 |
+页面右下角 ⚙️ 按钮 → 首次使用设置密码（≥4位）→ 解锁后可编辑：
+- 站点信息（标题、域名、头像、建站日期等）
+- 社交链接（增删改）
+- 项目链接（增删改）
 
 ---
 
-## 🔐 数据安全
+## 📦 部署到 GitHub Pages
 
-- ✅ 所有个人信息存储在 `public/config.json`
-- ✅ 仅你能查看
-- ✅ 禁止所有调试工具
-- ✅ 配置完整性检查（每5秒）
-- ✅ 自动恢复被篡改配置
+1. Fork 本仓库
+2. 修改 `public/config.json` 为你的信息
+3. 推送代码，GitHub Actions 自动部署
+4. 访问 `https://你的用户名.github.io/perfect-home/`
 
----
-
-## 📊 版本历史
-
-| 版本 | 发布日期 | 内容 |
-|------|---------|------|
-| v1.0.2 | 2026-03-26 | 修复社交链接图标显示/GitHub图标更新 |
-| v1.0.1 | 2026-03-26 | 右键提醒/顶部滚动公告 |
-| v1.0.0 | 2026-03-26 | 初版发布/配置文件管理/安全防护 |
+**自定义域名**：`vite.config.js` 中 `base: '/'` 已配置好。
 
 ---
 
-## 🎓 常见问题
+## 📋 更新日志
 
-### Q: 如何修改个人信息？
-A: 编辑 `public/config.json` 中的 `site` 对象，刷新页面即可。
+### v1.2.0
+- ✅ 待办清单（localStorage持久化）
+- 🌐 世界时钟（北京/东京/洛杉矶/伦敦）
+- 📌 快捷便签（5色分类）
+- 🔐 密码保护配置编辑器
+- 🕐 Footer站点计时器 + 接地气随机标语
+- 📊 访客统计（今日/累计）
+- 💬 一言/古诗/英语三源切换
+- ✍️ 打字机标语（顶部动画）
+- ✨ 粒子背景开关
+- 🖱️ 自定义鼠标特效
+- 📱 移动端响应式优化
 
-### Q: 如何添加社交链接？
-A: 编辑 `public/config.json` 中的 `socials` 数组，添加新的社交链接对象。
+### v1.1.0
+- 🐙 GitHub贡献图（52周热力图）
+- ⏱️ 倒计时卡片
+- 🎨 5套预设主题
+- 🌟 卡片悬浮动效
+- 📐 黄金比例布局
 
-### Q: 如何修改项目链接？
-A: 编辑 `public/config.json` 中的 `links` 数组，添加或修改项目链接。
+### v1.0.3
+- 🐛 访客天气API修复
+- 🕐 时钟问候语增强
+- 📄 Footer版权栏
 
-### Q: 如何修改公告内容？
-A: 编辑 `public/config.json` 中的 `announcement.text` 字段。
-
-### Q: 如何禁用右键提醒？
-A: 编辑 `public/config.json` 中的 `security.disableRightClick` 为 `false`。
-
-### Q: 如何修改主题色？
-A: 编辑 `src/styles/global.scss` 中的 CSS 变量。
-
----
-
-## ⚠️ 重要提示
-
-1. **不要分享 `public/config.json` 文件** - 包含个人信息
-2. **定期备份配置** - 防止意外丢失
-3. **修改后刷新页面** - 配置自动加载
-4. **保持安全防护启用** - 防止数据被篡改
-
----
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
+### v1.0.0
+- 🎉 初版发布
 
 ---
 
-## 📄 许可证
+## 📄 License
 
-MIT License - 详见 LICENSE 文件
-
----
-
-## 👨‍💻 作者
-
-**清风如水**
-
-- GitHub: [@327261086](https://github.com/327261086)
-- 项目: [Perfect Home](https://github.com/327261086/perfect-home)
-
----
-
-## 🙏 致谢
-
-感谢以下开源项目和服务：
-
-- [Vue 3](https://vuejs.org/)
-- [Vite](https://vitejs.dev/)
-- [Pinia](https://pinia.vuejs.org/)
-- [Open-Meteo](https://open-meteo.com/)
-- [Hitokoto](https://hitokoto.cn/)
-- [ipapi.co](https://ipapi.co/)
-
----
-
-## ⭐ Star History
+MIT © 2024 清风如水
 
 [![Star History Chart](https://api.star-history.com/svg?repos=327261086/perfect-home&type=Date)](https://star-history.com/#327261086/perfect-home&Date)
-
----
-
-**版本**: v1.0.2  
-**发布日期**: 2026-03-26  
-**状态**: ✅ 生产就绪
