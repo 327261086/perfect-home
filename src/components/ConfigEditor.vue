@@ -41,6 +41,10 @@
             :class="{ active: activeTab === 'links' }" 
             @click="activeTab = 'links'"
           >📁 项目链接</button>
+          <button 
+            :class="{ active: activeTab === 'announcement' }" 
+            @click="activeTab = 'announcement'"
+          >📢 公告</button>
         </div>
         
         <!-- 站点信息 -->
@@ -107,6 +111,45 @@
           <button @click="addLink" class="add-item-btn">+ 添加项目链接</button>
         </div>
         
+        <!-- 公告设置 -->
+        <div class="tab-content" v-if="activeTab === 'announcement'">
+          <div class="form-group">
+            <label>启用公告栏</label>
+            <label class="toggle-inline">
+              <input type="checkbox" v-model="editConfig.announcement.enabled" />
+              <span class="toggle-label">{{ editConfig.announcement.enabled ? '已启用' : '已关闭' }}</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>公告内容</label>
+            <textarea v-model="editConfig.announcement.text" rows="3" placeholder="输入公告文字..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>滚动速度（秒/轮）</label>
+            <input type="number" v-model.number="editConfig.announcement.speed" min="10" max="200" />
+          </div>
+          <div class="form-group">
+            <label>文字颜色</label>
+            <div class="color-row">
+              <input type="color" v-model="editConfig.announcement.textColor" class="link-color" />
+              <input type="text" v-model="editConfig.announcement.textColor" placeholder="#00d4ff" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>背景颜色</label>
+            <div class="color-row">
+              <input type="color" v-model="editConfig.announcement.bgColor" class="link-color" />
+              <input type="text" v-model="editConfig.announcement.bgColor" placeholder="rgba(0,212,255,0.1)" />
+            </div>
+          </div>
+          <div class="announcement-preview" v-if="editConfig.announcement.enabled">
+            <span>预览：</span>
+            <div class="preview-bar" :style="{ background: editConfig.announcement.bgColor, color: editConfig.announcement.textColor }">
+              {{ editConfig.announcement.text }}
+            </div>
+          </div>
+        </div>
+        
         <!-- 底部操作 -->
         <div class="editor-footer">
           <button @click="changePassword" class="change-pwd-btn">🔑 修改密码</button>
@@ -152,7 +195,14 @@ const editConfig = reactive({
     countdownDate: '2027-01-01'
   },
   socials: [],
-  links: []
+  links: [],
+  announcement: {
+    enabled: true,
+    text: '🎉 欢迎来到我的个人主页！',
+    speed: 50,
+    textColor: '#00d4ff',
+    bgColor: 'rgba(0, 212, 255, 0.1)'
+  }
 })
 
 onMounted(() => {
@@ -167,10 +217,12 @@ onMounted(() => {
       Object.assign(editConfig.site, data.site || {})
       editConfig.socials = data.socials || store.socials || []
       editConfig.links = data.links || store.links || []
+      if (data.announcement) Object.assign(editConfig.announcement, data.announcement)
     } else if (store.config?.site) {
       Object.assign(editConfig.site, store.config.site)
       editConfig.socials = store.socials || []
       editConfig.links = store.links || []
+      if (store.config.announcement) Object.assign(editConfig.announcement, store.config.announcement)
     }
   } catch (e) {
     console.warn('加载配置失败:', e)
@@ -234,7 +286,8 @@ const saveConfig = () => {
   localStorage.setItem(CONFIG_KEY, JSON.stringify({
     site: editConfig.site,
     socials: editConfig.socials,
-    links: editConfig.links
+    links: editConfig.links,
+    announcement: editConfig.announcement
   }))
   
   // 应用站点信息到 store
@@ -243,6 +296,11 @@ const saveConfig = () => {
   // 替换社交链接和项目链接（而非追加）
   store.replaceSocials([...editConfig.socials])
   store.replaceLinks([...editConfig.links])
+  
+  // 更新公告配置
+  if (store.config) {
+    store.config.announcement = { ...editConfig.announcement }
+  }
   
   alert('配置已保存！')
   emit('close')
@@ -415,7 +473,7 @@ const saveConfig = () => {
     margin-bottom: 6px;
   }
   
-  input {
+  input, textarea {
     width: 100%;
     padding: 10px 12px;
     background: rgba(0, 0, 0, 0.3);
@@ -428,6 +486,45 @@ const saveConfig = () => {
       border-color: var(--theme-primary);
       outline: none;
     }
+  }
+  
+  textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+}
+
+.toggle-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  
+  input { width: 18px; height: 18px; cursor: pointer; }
+  .toggle-label { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+}
+
+.color-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  
+  input[type="text"] { flex: 1; }
+}
+
+.announcement-preview {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  
+  > span { font-size: 0.75rem; color: rgba(255,255,255,0.5); display: block; margin-bottom: 8px; }
+  
+  .preview-bar {
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 
