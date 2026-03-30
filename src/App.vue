@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { mainStore } from './store'
 import { loadConfig } from './utils/config'
 import { initSecurityFeatures, initDataIntegrity } from './utils/security'
@@ -97,6 +97,17 @@ onMounted(async () => {
   store.fetchWeather()
   store.fetchHitokoto()
 })
+
+// 监听站点标题变化，同步更新浏览器标签页标题
+watch(
+  () => store.config?.site?.title,
+  (title) => {
+    if (title) {
+      document.title = title + store.config?.site?.domain
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss">
