@@ -32,14 +32,16 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { mainStore } from '../store'
 
+const store = mainStore()
 const year = new Date().getFullYear()
-const startDate = new Date('2024-01-01')
+const startDate = computed(() => new Date(store.config?.site?.startDate || '2024-01-01'))
 const now = ref(Date.now())
 let timer = null
 
 // ── 运行时间 ──
-const timeDiff = computed(() => now.value - startDate.getTime())
+const timeDiff = computed(() => now.value - startDate.value.getTime())
 const days  = computed(() => Math.floor(timeDiff.value / 86400000))
 const hours = computed(() => Math.floor((timeDiff.value % 86400000) / 3600000))
 const mins  = computed(() => Math.floor((timeDiff.value % 3600000) / 60000))
