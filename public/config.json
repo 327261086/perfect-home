@@ -87,8 +87,21 @@
     "rightClickMessage": "为了浏览体验 本站禁止右键。"
   },
   "changelog": [
+    { "version": "v1.3.0", "desc": "iconfont图标库/国际化i18n/背景图自定义/音乐播放器增强" },
     { "version": "v1.2.0", "desc": "待办/时钟/便签/编辑器/公告/打字机" },
     { "version": "v1.1.0", "desc": "GitHub贡献图/5套主题/倒计时" },
     { "version": "v1.0.0", "desc": "初版发布" }
-  ]
+  ],
+  "background": {
+    "type": "default",
+    "customUrl": "",
+    "opacity": 1,
+    "blur": 0
+  },
+  "music": {
+    "enabled": true,
+    "autoPlay": false,
+    "volume": 0.5,
+    "playlist": []
+  }
 }

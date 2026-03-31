@@ -110,7 +110,7 @@
     <!-- 社交链接 -->
     <div class="social-grid">
       <a v-for="s in store.socials" :key="s.id" :href="s.url" target="_blank" class="social-card" :style="{'--c': s.color}">
-        <span class="social-icon">{{ getIcon(s.icon) }}</span>
+        <i :class="['iconfont', getIcon(s.icon)]"></i>
         <span class="social-name">{{ s.name }}</span>
       </a>
     </div>
@@ -147,7 +147,7 @@ const avatarUrl = computed(() => {
 })
 const avatarIsImage = computed(() => !!avatarUrl.value)
 
-const getIcon = (i) => ({github:'⬛',bilibili:'📺',youtube:'▶️',twitter:'𝕏',telegram:'✈️',mail:'✉️',code:'💻',blog:'📝',music:'🎵',book:'📚',camera:'📷',folder:'📁',user:'👤',link:'🔗',gitee:'🦉'}[i] || '🔗')
+const getIcon = (i) => `icon-${i}`
 </script>
 
 <style lang="scss" scoped>

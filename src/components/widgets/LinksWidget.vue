@@ -16,8 +16,7 @@
         :style="{ '--link-color': link.color }"
       >
         <div class="link-icon">
-          <!-- 使用 Emoji 图标 -->
-          <span>{{ getEmojiIcon(link.icon) }}</span>
+          <i :class="['iconfont', getIconClass(link.icon)]"></i>
         </div>
         <div class="link-info">
           <div class="link-name">{{ link.name }}</div>
@@ -56,31 +55,7 @@ const formatUrl = (url) => {
   }
 }
 
-const isIconParkIcon = (icon) => {
-  return /^[a-z-]+$/.test(icon)
-}
-
-const getEmojiIcon = (icon) => {
-  const emojiMap = {
-    'github': '⬛',
-    'twitter': '𝕏',
-    'mail': '✉️',
-    'email': '✉️',
-    'link': '🔗',
-    'code': '💻',
-    'user': '👤',
-    'home': '🏠',
-    'star': '⭐',
-    'heart': '❤️',
-    'camera': '📷',
-    'music': '🎵',
-    'video': '📺',
-    'book': '📚',
-    'rocket': '🚀',
-    'fire': '🔥'
-  }
-  return emojiMap[icon] || '🔗'
-}
+const getIconClass = (icon) => `icon-${icon}`
 
 const fetchStars = async () => {
   try {
@@ -96,10 +71,6 @@ const fetchStars = async () => {
 
 onMounted(() => {
   fetchStars()
-  // 初始化 IconPark 图标
-  if (window.IconPark) {
-    window.IconPark.install(document.body)
-  }
 })
 </script>
 
