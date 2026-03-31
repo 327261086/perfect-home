@@ -310,12 +310,17 @@ const typewriterText = computed({
 })
 
 const saveConfig = () => {
+  // 保存到 perfect-home-edited-config
   localStorage.setItem(CONFIG_KEY, JSON.stringify({
     site: editConfig.site,
     socials: editConfig.socials,
     links: editConfig.links,
     announcement: editConfig.announcement
   }))
+  
+  // 同时同步到旧的 localStorage keys（保持兼容性）
+  localStorage.setItem('socials', JSON.stringify(editConfig.socials))
+  localStorage.setItem('siteLinks', JSON.stringify(editConfig.links))
   
   store.updateSiteConfig(editConfig.site)
   store.replaceSocials([...editConfig.socials])

@@ -11,11 +11,15 @@ export const mainStore = defineStore('main', () => {
       socials.value = cfg.socials.map(s => ({
         id: s.id, name: s.name, url: s.url, icon: s.icon, color: s.color
       }))
+      // 同步到 localStorage
+      localStorage.setItem('socials', JSON.stringify(socials.value))
     }
     if (cfg?.links) {
       links.value = cfg.links.map(l => ({
         id: l.id, name: l.name, url: l.url, icon: l.icon, color: l.color
       }))
+      // 同步到 localStorage
+      localStorage.setItem('siteLinks', JSON.stringify(links.value))
     }
     if (cfg?.site) {
       siteStartDate.value = cfg.site.startDate
