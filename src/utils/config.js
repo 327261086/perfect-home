@@ -1,9 +1,27 @@
-// 配置加载模块 - 从 public/config.json 加载数据
+// 配置加载模块 - 从 public/config.json 加载数据，然后合并 localStorage 编辑配置
 export async function loadConfig() {
   try {
     const response = await fetch('/config.json')
     if (!response.ok) throw new Error('Failed to load config')
-    return await response.json()
+    let config = await response.json()
+    
+    // 合并 localStorage 的编辑配置（优先级更高）
+    const CONFIG_KEY = 'perfect-home-edited-config'
+    const savedConfig = localStorage.getItem(CONFIG_KEY)
+    if (savedConfig) {
+      try {
+        const edited = JSON.parse(savedConfig)
+        // 深度合并：site、socials、links、announcement
+        if (edited.site) config.site = { ...config.site, ...edited.site }
+        if (edited.socials) config.socials = edited.socials
+        if (edited.links) config.links = edited.links
+        if (edited.announcement) config.announcement = { ...config.announcement, ...edited.announcement }
+      } catch (e) {
+        console.warn('localStorage 配置解析失败:', e)
+      }
+    }
+    
+    return config
   } catch (error) {
     console.error('配置加载失败，使用默认值:', error)
     return getDefaultConfig()
