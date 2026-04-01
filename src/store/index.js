@@ -239,16 +239,22 @@ export const mainStore = defineStore('main', () => {
   
   const fetchWeather = async () => {
     weatherLoading.value = true
-    let cityName = null
 
-    // 先用 IP API 获取城市
-    try {
-      const ipRes = await fetch('https://api.nxvav.cn/api/ip/')
-      const ipData = await ipRes.json()
-      if (ipData?.code === 200 && ipData.data?.cityName) {
-        cityName = ipData.data.cityName
-      }
-    } catch (e) { console.warn('获取IP城市失败:', e.message) }
+    // 优先复用已获取的 visitor 城市，避免重复请求 IP API
+    let cityName = visitor.value?.city && visitor.value.city !== '未知'
+      ? visitor.value.city
+      : null
+
+    // visitor 还没加载完则单独请求一次
+    if (!cityName) {
+      try {
+        const ipRes = await fetch('https://api.nxvav.cn/api/ip/')
+        const ipData = await ipRes.json()
+        if (ipData?.code === 200 && ipData.data?.cityName) {
+          cityName = ipData.data.cityName
+        }
+      } catch (e) { console.warn('获取IP城市失败:', e.message) }
+    }
 
     // 获取天气
     const city = cityName || '北京'

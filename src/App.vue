@@ -109,7 +109,8 @@ onMounted(async () => {
   
   store.setInnerWidth(window.innerWidth)
   window.addEventListener('resize', () => store.setInnerWidth(window.innerWidth))
-  store.fetchVisitor()
+  // 先获取访客信息（含城市），再用城市获取天气，避免重复请求 IP API
+  await store.fetchVisitor()
   store.fetchWeather()
   store.fetchHitokoto()
 })
