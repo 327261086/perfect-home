@@ -1,4 +1,6 @@
 // i18n 国际化配置
+import { ref, computed } from 'vue'
+
 export const messages = {
   zh: {
     // 导航和通用
@@ -51,7 +53,7 @@ export const messages = {
     
     // 番茄钟
     focus: '专注',
-    break: '休息',
+    breakTime: '休息',
     start: '开始',
     stop: '停止',
     reset: '重置',
@@ -121,7 +123,7 @@ export const messages = {
     
     // Pomodoro
     focus: 'Focus',
-    break: 'Break',
+    breakTime: 'Break',
     start: 'Start',
     stop: 'Stop',
     reset: 'Reset',
@@ -141,11 +143,35 @@ export const messages = {
   }
 }
 
-// i18n 工具函数
-export const createI18n = () => {
-  const locale = ref(localStorage.getItem('language') || 'zh')
+// 语言状态
+const locale = ref(localStorage.getItem('language') || 'zh')
+
+// 获取当前语言
+export const getLocale = () => locale.value
+
+// 设置语言
+export const setLocale = (lang) => {
+  if (messages[lang]) {
+    locale.value = lang
+    localStorage.setItem('language', lang)
+  }
+}
+
+// 翻译函数
+export const t = (key) => {
+  const keys = key.split('.')
+  let value = messages[locale.value]
+  for (const k of keys) {
+    value = value?.[k]
+  }
+  return value || key
+}
+
+// 计算属性版本（用于响应式）
+export const useI18n = () => {
+  const localeComputed = computed(() => locale.value)
   
-  const t = (key) => {
+  const tComputed = (key) => {
     const keys = key.split('.')
     let value = messages[locale.value]
     for (const k of keys) {
@@ -154,12 +180,9 @@ export const createI18n = () => {
     return value || key
   }
   
-  const setLocale = (lang) => {
-    if (messages[lang]) {
-      locale.value = lang
-      localStorage.setItem('language', lang)
-    }
+  return {
+    locale: localeComputed,
+    t: tComputed,
+    setLocale
   }
-  
-  return { locale, t, setLocale }
 }

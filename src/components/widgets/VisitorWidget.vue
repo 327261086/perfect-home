@@ -16,7 +16,11 @@
           {{ showIp ? visitorData.ip : maskedIp }}
         </span>
       </div>
-      <div class="visitor-item">
+      <div class="visitor-item" v-if="visitorData.isp">
+        <span class="label">📡 运营商</span>
+        <span class="value">{{ visitorData.isp }}</span>
+      </div>
+      <div class="visitor-item" v-else>
         <span class="label">🕐 时区</span>
         <span class="value">{{ visitorData.timezone }}</span>
       </div>
@@ -44,16 +48,31 @@ const maskedIp = computed(() => {
 })
 
 const fetchVisitor = async () => {
-  // 多 API 降级策略
+  // 多 API 降级策略，nxvav.cn 优先
   const apis = [
+    {
+      url: 'https://api.nxvav.cn/api/ip/',
+      parse: (d) => ({
+        ip: d.data?.ip,
+        city: d.data?.cityName || d.data?.regionName || '未知',
+        country: d.data?.countryName || '未知',
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+        isp: d.data?.internetServiceProvider || '',
+        region: d.data?.regionName || ''
+      }),
+      check: (d) => d?.code === 200
+    },
     {
       url: 'https://ipwho.is/',
       parse: (d) => ({
         ip: d.ip,
         city: d.city || '未知',
         country: d.country || '未知',
-        timezone: d.timezone?.id || 'UTC'
-      })
+        timezone: d.timezone?.id || 'UTC',
+        isp: d.connection?.isp || '',
+        region: d.region || ''
+      }),
+      check: (d) => d?.success !== false
     },
     {
       url: 'https://ipapi.co/json/',
@@ -61,17 +80,11 @@ const fetchVisitor = async () => {
         ip: d.ip,
         city: d.city || '未知',
         country: d.country_name || '未知',
-        timezone: d.timezone || 'UTC'
-      })
-    },
-    {
-      url: 'http://ip-api.com/json/?lang=zh-CN',
-      parse: (d) => ({
-        ip: d.query,
-        city: d.city || '未知',
-        country: d.country || '未知',
-        timezone: d.timezone || 'UTC'
-      })
+        timezone: d.timezone || 'UTC',
+        isp: d.org || '',
+        region: d.region || ''
+      }),
+      check: (d) => !!d?.ip
     }
   ]
 
@@ -80,7 +93,7 @@ const fetchVisitor = async () => {
       const res = await fetch(api.url)
       if (!res.ok) continue
       const data = await res.json()
-      if (!data || (data.code && data.code !== 200)) continue
+      if (!api.check(data)) continue
       visitorData.value = api.parse(data)
       return
     } catch (e) {
@@ -94,7 +107,9 @@ const fetchVisitor = async () => {
     ip: '0.0.0.0',
     city: '未知',
     country: '未知',
-    timezone: tz
+    timezone: tz,
+    isp: '',
+    region: ''
   }
 }
 

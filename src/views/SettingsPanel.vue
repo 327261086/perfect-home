@@ -51,29 +51,7 @@
         <div class="menu-content">
           <!-- 个性壁纸 -->
           <div v-if="store.activeMenu === 'wallpaper'" class="menu-section">
-            <div class="setting-item">
-              <span class="setting-label">壁纸类型</span>
-              <div class="wallpaper-options">
-                <button 
-                  v-for="wp in wallpapers" 
-                  :key="wp.value"
-                  :class="{ active: store.coverType === wp.value }"
-                  @click="store.coverType = wp.value"
-                >
-                  {{ wp.icon }} {{ wp.label }}
-                </button>
-              </div>
-            </div>
-            <div class="setting-item">
-              <span class="setting-label">当前壁纸</span>
-              <div class="wallpaper-preview">
-                <img :src="store.currentBg" alt="preview" />
-                <div class="preview-actions">
-                  <button @click="store.prevBg">◀</button>
-                  <button @click="store.nextBg">▶</button>
-                </div>
-              </div>
-            </div>
+            <BackgroundManager />
           </div>
           
           <!-- 个性化调整 -->
@@ -167,6 +145,23 @@
           <!-- 其他设置 -->
           <div v-if="store.activeMenu === 'other'" class="menu-section">
             <div class="setting-item">
+              <span class="setting-label">语言 / Language</span>
+              <div class="language-options">
+                <button 
+                  :class="{ active: store.language === 'zh' }"
+                  @click="setLanguage('zh')"
+                >
+                  🇨🇳 中文
+                </button>
+                <button 
+                  :class="{ active: store.language === 'en' }"
+                  @click="setLanguage('en')"
+                >
+                  🇺🇸 English
+                </button>
+              </div>
+            </div>
+            <div class="setting-item">
               <span class="setting-label">便签板</span>
               <label class="toggle">
                 <input type="checkbox" v-model="store.notesEnabled" />
@@ -188,13 +183,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { mainStore } from '../store'
+import BackgroundManager from '../components/BackgroundManager.vue'
 
 const store = mainStore()
 
-const version = 'v1.2.0'
+const version = 'v1.3.0'
 const changelog = computed(() => store.config?.changelog || [])
+
+const setLanguage = (lang) => {
+  store.setLanguage(lang)
+}
 
 const menus = [
   { id: 'wallpaper', name: '个性壁纸', icon: '🖼️' },
@@ -663,5 +663,32 @@ applyTheme(store.themeMode)
   color: #fff;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   font-weight: 500;
+}
+
+.language-options {
+  display: flex;
+  gap: 8px;
+  
+  button {
+    flex: 1;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    
+    &:hover {
+      background: rgba(0, 212, 255, 0.1);
+    }
+    
+    &.active {
+      background: rgba(0, 212, 255, 0.2);
+      border-color: var(--theme-primary);
+      color: var(--theme-primary);
+    }
+  }
 }
 </style>

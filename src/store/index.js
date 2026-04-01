@@ -104,6 +104,10 @@ export const mainStore = defineStore('main', () => {
   })
   
   const language = ref(localStorage.getItem('language') || 'zh')
+  const setLanguage = (lang) => {
+    language.value = lang
+    localStorage.setItem('language', lang)
+  }
 
   // ==================== 设置面板 ====================
   const setOpenState = ref(false)
@@ -215,17 +219,18 @@ export const mainStore = defineStore('main', () => {
   const visitor = ref(null)
   const fetchVisitor = async () => {
     try {
-      const res = await fetch('https://api.ipynb.cn/api/beautify_ipinfo')
+      const res = await fetch('https://api.nxvav.cn/api/ip/')
       const data = await res.json()
-      if (data && data.data) {
+      if (data?.code === 200 && data.data) {
         visitor.value = {
-          city: data.data.city || '未知',
-          country_name: data.data.country || '未知',
+          city: data.data.cityName || data.data.regionName || '未知',
+          country_name: data.data.countryName || '未知',
           ip: data.data.ip || '未知',
-          timezone: data.data.timezone || 'UTC'
+          isp: data.data.internetServiceProvider || '',
+          region: data.data.regionName || ''
         }
       } else { throw new Error('Invalid') }
-    } catch { visitor.value = { city: '未知', country_name: '未知', ip: '未知', timezone: 'UTC' } }
+    } catch { visitor.value = { city: '未知', country_name: '未知', ip: '未知', isp: '', region: '' } }
   }
 
   // ==================== 天气 ====================
@@ -236,27 +241,28 @@ export const mainStore = defineStore('main', () => {
     weatherLoading.value = true
     let cityName = null
 
-    // 获取IP城市
+    // 先用 IP API 获取城市
     try {
-      const ipRes = await fetch('https://api.ipynb.cn/api/beautify_ipinfo')
+      const ipRes = await fetch('https://api.nxvav.cn/api/ip/')
       const ipData = await ipRes.json()
-      if (ipData?.data?.city) cityName = ipData.data.city
-    } catch (e) { console.warn('获取IP失败:', e.message) }
+      if (ipData?.code === 200 && ipData.data?.cityName) {
+        cityName = ipData.data.cityName
+      }
+    } catch (e) { console.warn('获取IP城市失败:', e.message) }
 
     // 获取天气
     const city = cityName || '北京'
     try {
-      const wRes = await fetch(`https://api.ipynb.cn/api/weather?city=${encodeURIComponent(city)}`)
+      const wRes = await fetch(`https://api.nxvav.cn/api/weather/?city=${encodeURIComponent(city)}`)
       const wData = await wRes.json()
-      if (wData?.data?.now) {
-        const now = wData.data.now
+      if (wData?.code === 200 && wData.now) {
         weather.value = {
-          temp: now.temperature || 25,
-          humidity: now.humidity || 50,
-          wind: now.windSpeed || 10,
-          icon: getWeatherIcon(now.code),
-          text: now.text || '未知',
-          city: city
+          temp: wData.now.temperature || '--',
+          humidity: wData.now.humidity || '--',
+          wind: wData.now.windSpeed || '--',
+          icon: getWeatherIcon(String(wData.now.code)),
+          text: wData.now.text || '未知',
+          city: wData.location?.name || city
         }
       }
     } catch (e) { console.warn('天气获取失败:', e.message) }
@@ -264,28 +270,28 @@ export const mainStore = defineStore('main', () => {
   }
 
   const getWeatherIcon = (code) => {
-    // ipnb.cn 天气 code 映射（参考和风天气码）
+    // nxvav.cn 天气 code 映射（和风天气码）
     const map = {
       // 晴
-      0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+      '0': '☀️', '1': '🌤️', '2': '⛅', '3': '☁️',
       // 雾/沙尘
-      4: '🌫️', 5: '🌫️', 6: '🌫️', 7: '🌫️', 8: '🌫️', 9: '🌫️',
+      '4': '🌫️', '5': '🌫️', '6': '🌫️', '7': '🌫️', '8': '🌫️', '9': '🌫️',
       // 风
-      10: '💨', 11: '🌫️', 12: '🌫️', 13: '🌫️', 14: '🌫️', 15: '🌫️', 16: '🌫️', 17: '🌫️', 18: '💨',
+      '10': '💨', '11': '🌫️', '12': '🌫️', '13': '🌫️', '14': '🌫️', '15': '🌫️', '16': '🌫️', '17': '🌫️', '18': '💨',
       // 雨
-      19: '🌧️', 20: '🌧️', 21: '🌧️', 22: '🌨️', 23: '🌨️', 24: '🌨️', 25: '🌨️',
+      '19': '🌧️', '20': '🌧️', '21': '🌧️', '22': '🌨️', '23': '🌨️', '24': '🌨️', '25': '🌨️',
       // 阵雨
-      26: '🌧️', 27: '🌧️', 28: '🌧️', 29: '⛈️',
+      '26': '🌧️', '27': '🌧️', '28': '🌧️', '29': '⛈️',
       // 雷阵雨/冰雹
-      30: '⛈️', 31: '⛈️', 32: '⛈️', 33: '⛈️', 34: '⛈️',
+      '30': '⛈️', '31': '⛈️', '32': '⛈️', '33': '⛈️', '34': '⛈️',
       // 雨夹雪
-      35: '🌨️', 36: '🌨️',
+      '35': '🌨️', '36': '🌨️',
       // 阵雨/雷阵雨
-      37: '🌧️', 38: '🌧️', 39: '🌧️',
+      '37': '🌧️', '38': '🌧️', '39': '🌧️',
       // 雪
-      40: '🌨️', 41: '❄️', 42: '🌨️', 43: '❄️', 44: '🌨️', 45: '🌫️', 46: '🌫️', 47: '🌫️', 48: '🌫️',
+      '40': '🌨️', '41': '❄️', '42': '🌨️', '43': '❄️', '44': '🌨️', '45': '🌫️', '46': '🌫️', '47': '🌫️', '48': '🌫️',
       // 大雪/暴雪
-      49: '❄️', 50: '🌨️', 51: '🌨️', 52: '🌨️',
+      '49': '❄️', '50': '🌨️', '51': '🌨️', '52': '🌨️',
       // 冻雨
       53: '🌨️', 54: '🌨️',
       // 雨/雪
@@ -454,7 +460,7 @@ export const mainStore = defineStore('main', () => {
     config, setConfig,
     imgLoadStatus, innerWidth, setInnerWidth, setImgLoadStatus,
     siteStartDate, siteStartShow, siteDays,
-    themeMode, isNight, language,
+    themeMode, isNight, language, setLanguage,
     themes, activeTheme, currentTheme, setTheme,
     setOpenState, activeMenu,
     coverType, currentBg, currentBgIndex, nextBg, prevBg, initWallpapers, refreshRandomBg,

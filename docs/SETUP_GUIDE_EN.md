@@ -1,4 +1,4 @@
-# Perfect Home - English Setup Guide
+# Perfect Home v1.3.0 - English Setup Guide
 
 ## 📖 Table of Contents
 

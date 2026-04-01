@@ -41,6 +41,19 @@
 
     <!-- Music Player Panel -->
     <MusicPanel v-if="store.musicOpenState" />
+    
+    <!-- Music Player Enhanced -->
+    <MusicPlayerEnhanced v-if="showMusicPlayer" @close="showMusicPlayer = false" />
+    
+    <!-- Music Player Toggle Button -->
+    <button 
+      v-if="store.config?.music?.enabled"
+      class="music-toggle-btn"
+      @click="showMusicPlayer = !showMusicPlayer"
+      :title="showMusicPlayer ? '关闭音乐' : '打开音乐'"
+    >
+      🎵
+    </button>
 
     <!-- Footer -->
     <Footer />
@@ -63,11 +76,14 @@ import Footer from './components/Footer.vue'
 import ConfigEditor from './components/ConfigEditor.vue'
 import TypewriterBanner from './components/TypewriterBanner.vue'
 import CustomCursor from './components/CustomCursor.vue'
+import MusicPlayerEnhanced from './components/MusicPlayerEnhanced.vue'
+import BackgroundManager from './components/BackgroundManager.vue'
 
 const store = mainStore()
 const mobileOpen = ref(false)
 const config = ref(null)
 const showConfigEditor = ref(false)
+const showMusicPlayer = ref(false)
 
 const isMobile = computed(() => store.innerWidth < 720)
 
@@ -167,6 +183,28 @@ watch(
 .config-float-btn {
   position: fixed;
   bottom: 80px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 99;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: var(--theme-gradient);
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px var(--theme-glow);
+  }
+}
+
+.music-toggle-btn {
+  position: fixed;
+  bottom: 20px;
   right: 20px;
   width: 48px;
   height: 48px;

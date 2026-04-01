@@ -1,190 +1,144 @@
-# Perfect Home v1.0.1 - 新功能说明
+# Perfect Home v1.3.0 - 新功能说明
 
-## 🎉 新增功能
-
-### 1. 右键提醒 ✨
-- **功能**: 用户右键点击时，顶部显示提醒消息
-- **提醒内容**: "为了浏览体验，本站禁止右键。"
-- **自动消失**: 2秒后自动消失
-- **配置位置**: `public/config.json` 中的 `security.rightClickMessage`
-
-### 2. 顶部滚动公告 ✨
-- **功能**: 页面顶部显示滚动公告栏
-- **内容**: 可自定义公告文本
-- **速度**: 可调整滚动速度
-- **样式**: 可自定义背景色和文字色
-- **配置位置**: `public/config.json` 中的 `announcement`
+> 📅 发布日期：2026-04-01  
+> 📌 当前版本：v1.3.0
 
 ---
 
-## 📝 配置方法
+## 🎉 v1.3.0 新功能介绍
 
-### 右键提醒配置
+### 1. iconfont 图标库 ✨
 
-编辑 `public/config.json`：
+专业矢量图标替换 Emoji，带来更精致的视觉效果。
 
+**新特性：**
+- 🎨 20+ 精选图标
+- 🌈 主题色自动跟随
+- ✨ 悬浮动效增强
+- ⚡ 更轻量的加载
+
+**使用方式：**
 ```json
-{
-  "security": {
-    "disableRightClick": true,
-    "rightClickMessage": "为了浏览体验，本站禁止右键。"
-  }
-}
+"icon": "github"
 ```
 
-### 公告栏配置
-
-编辑 `public/config.json`：
-
-```json
-{
-  "announcement": {
-    "enabled": true,
-    "text": "🎉 欢迎来到我的个人主页！Perfect Home v1.0.1 发布",
-    "speed": 50,
-    "backgroundColor": "rgba(0, 212, 255, 0.1)",
-    "textColor": "#00d4ff"
-  }
-}
-```
-
-### 配置参数说明
-
-#### announcement 对象
-
-| 参数 | 类型 | 说明 | 默认值 |
-|------|------|------|--------|
-| `enabled` | boolean | 是否启用公告栏 | true |
-| `text` | string | 公告文本内容 | "🎉 欢迎来到我的个人主页！" |
-| `speed` | number | 滚动速度（秒） | 50 |
-| `backgroundColor` | string | 背景颜色（CSS颜色值） | "rgba(0, 212, 255, 0.1)" |
-| `textColor` | string | 文字颜色（CSS颜色值） | "#00d4ff" |
-
-#### security 对象
-
-| 参数 | 类型 | 说明 | 默认值 |
-|------|------|------|--------|
-| `disableRightClick` | boolean | 是否禁止右键 | true |
-| `rightClickMessage` | string | 右键提醒文本 | "为了浏览体验，本站禁止右键。" |
+渲染为专业矢量图标！
 
 ---
 
-## 🎨 自定义示例
+### 2. 国际化 i18n 🌍
 
-### 示例1：修改公告文本
+支持中英文双语切换。
 
-```json
-{
-  "announcement": {
-    "enabled": true,
-    "text": "📢 最新更新：Perfect Home v1.0.1 发布！",
-    "speed": 50,
-    "backgroundColor": "rgba(0, 212, 255, 0.1)",
-    "textColor": "#00d4ff"
-  }
-}
-```
+**新特性：**
+- 🌏 一键切换语言
+- 💾 自动记忆偏好
+- 📝 完整翻译覆盖
 
-### 示例2：加快滚动速度
-
-```json
-{
-  "announcement": {
-    "enabled": true,
-    "text": "🎉 欢迎来到我的个人主页！",
-    "speed": 30,
-    "backgroundColor": "rgba(0, 212, 255, 0.1)",
-    "textColor": "#00d4ff"
-  }
-}
-```
-
-### 示例3：修改公告栏样式
-
-```json
-{
-  "announcement": {
-    "enabled": true,
-    "text": "🎉 欢迎来到我的个人主页！",
-    "speed": 50,
-    "backgroundColor": "rgba(123, 47, 247, 0.1)",
-    "textColor": "#7b2ff7"
-  }
-}
-```
-
-### 示例4：禁用公告栏
-
-```json
-{
-  "announcement": {
-    "enabled": false
-  }
-}
-```
-
-### 示例5：修改右键提醒
-
-```json
-{
-  "security": {
-    "disableRightClick": true,
-    "rightClickMessage": "⚠️ 右键已禁用，请使用其他方式浏览。"
-  }
-}
-```
+**切换方式：**
+在设置面板中选择语言即可。
 
 ---
 
-## 🔧 技术实现
+### 3. 背景图自定义 🖼️
 
-### 右键提醒
+三种背景模式，打造个性化主页。
 
-- 监听 `contextmenu` 事件
-- 创建浮动提醒元素
-- 使用CSS动画实现滑入/滑出效果
-- 2秒后自动移除
-
-### 公告栏
-
-- 固定定位在页面顶部
-- 使用CSS `animation` 实现无缝滚动
-- 支持自定义速度、颜色、背景
-- 响应式设计，移动端自适应
+**新特性：**
+- 🎨 默认渐变背景
+- 🖼️ 自定义图片 URL
+- 🎲 Unsplash 随机美图
+- 💫 不透明度调节
+- 🌫️ 模糊度控制
 
 ---
 
-## 📱 响应式设计
+### 4. 音乐播放器增强 🎵
 
-- **桌面**: 公告栏高度 40px，字体 14px
-- **移动**: 公告栏高度 35px，字体 12px
+全新专业播放器 UI。
 
----
-
-## ⚙️ 修改后的步骤
-
-1. **编辑配置文件**: `public/config.json`
-2. **保存文件**
-3. **刷新页面** - 配置自动加载
-
----
-
-## 🎯 常见问题
-
-### Q: 如何禁用公告栏？
-A: 在 `public/config.json` 中设置 `"enabled": false`
-
-### Q: 如何加快/减慢滚动速度？
-A: 修改 `speed` 参数，数值越小滚动越快
-
-### Q: 如何修改公告栏颜色？
-A: 修改 `backgroundColor` 和 `textColor` 参数
-
-### Q: 右键提醒可以自定义吗？
-A: 可以，修改 `security.rightClickMessage` 参数
+**新特性：**
+- 🎶 专辑封面展示
+- 📊 进度条拖拽
+- 📝 歌词同步显示
+- 🔊 音量控制
+- 🔁 三种循环模式
+- 📋 播放列表管理
 
 ---
 
-**版本**: v1.0.1  
-**发布日期**: 2026-03-26  
-**状态**: ✅ 生产就绪
+## 🔧 技术升级
+
+### iconfont 集成
+- 使用阿里巴巴 iconfont 图标库
+- 支持主题色 CSS 变量
+- 悬浮动画增强
+
+### i18n 架构
+- 独立翻译文件
+- 响应式语言切换
+- localStorage 持久化
+
+### 背景系统
+- 三种模式灵活切换
+- 实时预览效果
+- 平滑过渡动画
+
+### 音乐播放器
+- 组件化设计
+- 响应式布局
+- 歌词解析引擎
+
+---
+
+## 📱 兼容性
+
+- ✅ 所有现代浏览器
+- ✅ 移动端适配
+- ✅ 响应式设计
+- ✅ 无需刷新页面
+
+---
+
+## 🚀 快速体验
+
+1. **克隆项目**
+   ```bash
+   git clone https://github.com/327261086/perfect-home.git
+   cd perfect-home
+   npm install
+   npm run dev
+   ```
+
+2. **体验新功能**
+   - 点击 ⚙️ 打开配置编辑器
+   - 尝试切换主题
+   - 自定义背景图
+   - 编辑播放列表
+
+---
+
+## 📖 了解更多
+
+- [安装指南](SETUP_GUIDE.md)
+- [配置指南](CONFIG_GUIDE.md)
+- [图标配置](ICONFONT_QUICK_START.md)
+- [路线图](ROADMAP.md)
+- [更新日志](RELEASE_NOTES.md)
+
+---
+
+## 💡 反馈建议
+
+欢迎提交 Issue 和建议！
+
+- 🐛 问题反馈：[GitHub Issues](https://github.com/327261086/perfect-home/issues)
+- 💡 功能建议：[GitHub Discussions](https://github.com/327261086/perfect-home/discussions)
+- 📦 贡献代码：[Pull Requests](https://github.com/327261086/perfect-home/pulls)
+
+---
+
+**版本**: v1.3.0  
+**发布日期**: 2026-04-01  
+**状态**: ✅ 生产就绪  
+**许可证**: MIT

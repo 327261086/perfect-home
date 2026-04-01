@@ -1,4 +1,4 @@
-# Perfect Home - 详细搭建文档
+# Perfect Home v1.3.0 - 详细搭建文档
 
 ## 📖 目录
 
